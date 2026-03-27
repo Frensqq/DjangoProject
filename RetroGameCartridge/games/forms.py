@@ -29,7 +29,7 @@ class GameStudioForm(forms.ModelForm):
                     'placeholder': 'Глава студии'  
                 }
             ),
-            'website': forms.URLField(attrs={
+            'website': forms.URLInput(attrs={
                     'class': 'form-control',
                     'placeholder': 'https://site.com'  
                 }

@@ -1,0 +1,99 @@
+/* Общие стили */
+.game-card {
+    transition: transform 0.2s;
+    height: 100%;
+}
+
+.game-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.game-cover {
+    height: 200px;
+    object-fit: cover;
+}
+
+.rating-stars {
+    color: #ffc107;
+}
+
+.badge-platform {
+    background-color: #6c757d;
+    margin-right: 5px;
+}
+
+.footer {
+    margin-top: 50px;
+    padding: 20px 0;
+    background-color: #f8f9fa;
+}
+
+/* Стили для ретро-консоли */
+.retro-console {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: 4px solid #333;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.retro-console:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+}
+
+.console-screen {
+    background: #111;
+    border: 3px solid #00ff00;
+    border-radius: 10px;
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Courier New', monospace;
+    transition: all 0.3s ease;
+}
+
+.retro-btn {
+    width: 70px;
+    height: 70px;
+    border-radius: 50% !important;
+    font-weight: bold;
+    transition: all 0.1s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.retro-btn:active {
+    transform: scale(0.9);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.d-pad {
+    display: inline-block;
+    background: #333;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.dpad-btn {
+    width: 50px;
+    height: 50px;
+    margin: 2px;
+    font-size: 20px;
+    transition: all 0.05s linear;
+}
+
+.dpad-btn:active {
+    transform: scale(0.95);
+    background-color: #ff6600 !important;
+}
+
+@keyframes screenGlow {
+    0% { text-shadow: 0 0 5px #00ff00; }
+    100% { text-shadow: 0 0 20px #00ff00; }
+}
+
+.screen-text-animation {
+    animation: screenGlow 0.3s ease;
+}

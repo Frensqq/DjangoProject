@@ -1,0 +1,42 @@
+{% extends 'games/base.html' %}
+
+{% block title %} - {{ game.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>{{ game.name }}</h1>
+    <hr>
+    
+    <div class="row">
+        <div class="col-md-8">
+            <p><strong>Студия:</strong> {{ game.game_studio.name }}</p>
+            <p><strong>Дата выхода:</strong> {{ game.release_date|date:"d.m.Y"|default:"Не указана" }}</p>
+            <p><strong>Цена:</strong> {{ game.price|default:"Не указана" }} ₽</p>
+            <p><strong>Доступна:</strong> {{ game.is_available|yesno:"Да,Нет" }}</p>
+            
+            <h3>Описание</h3>
+            <p>{{ game.description|linebreaks|default:"Описание отсутствует" }}</p>
+            
+            <h3>Жанры</h3>
+            <p>
+                {% for category in game.categories.all %}
+                <span class="badge bg-info">{{ category.name }}</span>
+                {% empty %}
+                Не указаны
+                {% endfor %}
+            </p>
+            
+            <h3>Платформы</h3>
+            <p>
+                {% for platform in game.platforms.all %}
+                <span class="badge bg-secondary">{{ platform.name }}</span>
+                {% empty %}
+                Не указаны
+                {% endfor %}
+            </p>
+            
+            <a href="{% url 'games:game_list' %}" class="btn btn-secondary">Назад к списку</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

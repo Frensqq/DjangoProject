@@ -1,0 +1,28 @@
+{% extends 'games/base.html' %}
+
+{% block title %} - Игры{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Список игр</h1>
+    
+    <div class="row">
+        {% for game in games %}
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5>{{ game.name }}</h5>
+                    <p class="text-muted">{{ game.game_studio.name }}</p>
+                    <p>{{ game.description|truncatechars:100 }}</p>
+                    <a href="{% url 'games:game_detail' game.id %}" class="btn btn-primary">Подробнее</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p>Игр пока нет. Добавьте игры через админку!</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
