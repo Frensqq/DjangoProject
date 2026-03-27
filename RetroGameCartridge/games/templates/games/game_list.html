@@ -1,28 +1,61 @@
 {% extends 'games/base.html' %}
 
-{% block title %} - Игры{% endblock %}
+{% block title %}Список игр{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h1>Список игр</h1>
-    
-    <div class="row">
-        {% for game in games %}
-        <div class="col-md-4 mb-3">
-            <div class="card">
-                <div class="card-body">
-                    <h5>{{ game.name }}</h5>
-                    <p class="text-muted">{{ game.game_studio.name }}</p>
-                    <p>{{ game.description|truncatechars:100 }}</p>
-                    <a href="{% url 'games:game_detail' game.id %}" class="btn btn-primary">Подробнее</a>
-                </div>
+<h1>Каталог игр</h1>
+
+<div class="form-card">
+    <div class="form-card-header">
+        <h3>Поиск</h3>
+    </div>
+    <div class="form-card-body">
+        <form method="get">
+            <div class="form-group">
+                <input type="text" name="q" class="form-control" placeholder="Поиск по названию..." value="{{ request.GET.q }}">
             </div>
-        </div>
-        {% empty %}
-        <div class="col-12">
-            <p>Игр пока нет. Добавьте игры через админку!</p>
-        </div>
-        {% endfor %}
+            <div class="form-group">
+                <select name="studio" class="form-control">
+                    <option value="">Все студии</option>
+                    {% for studio in studios %}
+                    <option value="{{ studio.id }}" {% if request.GET.studio == studio.id|stringformat:"s" %}selected{% endif %}>
+                        {{ studio.name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Найти</button>
+            <a href="{% url 'games:game_list' %}" class="btn btn-secondary">Сбросить</a>
+        </form>
     </div>
 </div>
+
+<div class="games-grid">
+    {% for game in games %}
+        <div class="game-card">
+            {% if game.cover_image %}
+                <img src="{{ game.cover_image.url }}" class="game-card-image" alt="{{ game.name }}">
+            {% endif %}
+            <div class="game-card-body">
+                <h5 class="game-card-title">{{ game.name }}</h5>
+                <h6 class="game-card-subtitle">{{ game.game_studio.name }}</h6>
+                <p class="game-card-text">
+                    <strong>Год:</strong> {{ game.release_date|date:"Y"|default:"Не указан" }}<br>
+                    {% if game.price %}<strong>Цена:</strong> {{ game.price }} ₽<br>{% endif %}
+                    <strong>Статус:</strong> 
+                    <span class="badge {% if game.is_available %}badge-success{% else %}badge-danger{% endif %}">
+                        {% if game.is_available %}Доступна{% else %}Нет в наличии{% endif %}
+                    </span>
+                </p>
+            </div>
+            <div class="game-card-footer">
+                <a href="{% url 'games:game_detail' game.id %}" class="btn btn-info btn-sm">Подробнее</a>
+            </div>
+        </div>
+    {% empty %}
+        <p>Игры не найдены</p>
+    {% endfor %}
+</div>
+
+<p class="text-muted">Всего найдено: {{ games|length }} игр</p>
 {% endblock %}

@@ -1,41 +1,68 @@
 {% extends 'games/base.html' %}
 
-{% block title %} - {{ game.name }}{% endblock %}
+{% block title %}{{ game.name }}{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h1>{{ game.name }}</h1>
-    <hr>
-    
-    <div class="row">
-        <div class="col-md-8">
-            <p><strong>Студия:</strong> {{ game.game_studio.name }}</p>
-            <p><strong>Дата выхода:</strong> {{ game.release_date|date:"d.m.Y"|default:"Не указана" }}</p>
-            <p><strong>Цена:</strong> {{ game.price|default:"Не указана" }} ₽</p>
-            <p><strong>Доступна:</strong> {{ game.is_available|yesno:"Да,Нет" }}</p>
+<div class="form-container">
+    <div class="form-card">
+        <div class="form-card-header">
+            <h3>{{ game.name }}</h3>
+        </div>
+        <div class="form-card-body">
+            <div class="detail-container">
+                {% if game.cover_image %}
+                <div class="detail-image">
+                    <img src="{{ game.cover_image.url }}" alt="{{ game.name }}">
+                </div>
+                {% endif %}
+                
+                <div class="detail-info">
+                    <dl>
+                        <dt>Студия:</dt>
+                        <dd>{{ game.game_studio.name }}</dd>
+                        
+                        <dt>Дата выхода:</dt>
+                        <dd>{{ game.release_date|date:"d.m.Y"|default:"Не указана" }}</dd>
+                        
+                        <dt>Цена:</dt>
+                        <dd>{{ game.price|default:"Не указана" }} ₽</dd>
+                        
+                        <dt>Статус:</dt>
+                        <dd>
+                            <span class="badge {% if game.is_available %}badge-success{% else %}badge-danger{% endif %}">
+                                {% if game.is_available %}Доступна{% else %}Нет в наличии{% endif %}
+                            </span>
+                        </dd>
+                        
+                        {% if game.categories.all %}
+                        <dt>Жанры:</dt>
+                        <dd>
+                            {% for category in game.categories.all %}
+                            <span class="badge badge-info">{{ category.name }}</span>
+                            {% endfor %}
+                        </dd>
+                        {% endif %}
+                        
+                        {% if game.platforms.all %}
+                        <dt>Платформы:</dt>
+                        <dd>
+                            {% for platform in game.platforms.all %}
+                            <span class="badge badge-secondary">{{ platform.name }}</span>
+                            {% endfor %}
+                        </dd>
+                        {% endif %}
+                        
+                        {% if game.description %}
+                            <dt>Описание:</dt>
+                            <dd>{{ game.description|linebreaks }}</dd>
+                        {% endif %}
+                    </dl>
+                </div>
+            </div>
             
-            <h3>Описание</h3>
-            <p>{{ game.description|linebreaks|default:"Описание отсутствует" }}</p>
-            
-            <h3>Жанры</h3>
-            <p>
-                {% for category in game.categories.all %}
-                <span class="badge bg-info">{{ category.name }}</span>
-                {% empty %}
-                Не указаны
-                {% endfor %}
-            </p>
-            
-            <h3>Платформы</h3>
-            <p>
-                {% for platform in game.platforms.all %}
-                <span class="badge bg-secondary">{{ platform.name }}</span>
-                {% empty %}
-                Не указаны
-                {% endfor %}
-            </p>
-            
-            <a href="{% url 'games:game_list' %}" class="btn btn-secondary">Назад к списку</a>
+            <div class="form-actions">
+                <a href="{% url 'games:game_list' %}" class="btn btn-secondary">Назад к списку</a>
+            </div>
         </div>
     </div>
 </div>
