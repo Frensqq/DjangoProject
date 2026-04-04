@@ -75,6 +75,9 @@ urlpatterns = [
     # Создание нового жанра
     path('categories/create/', views.category_create, name='category_create'),
     # Пример: /categories/create/
+
+    # Обновление жанра
+    path('categories/<int:pk>/update/', views.category_update, name='category_update'),
     
     # Список платформ
     path('platforms/', views.platform_list, name='platform_list'),
@@ -83,4 +86,8 @@ urlpatterns = [
     # Создание новой платформы
     path('platforms/create/', views.platform_create, name='platform_create'),
     # Пример: /platforms/create/
+
+    # Редактирование платформы
+    path('platforms/<int:pk>/update/', views.platform_update, name='platform_update')
+
 ]

@@ -11,23 +11,33 @@ const retroFacts = [
 ];
 
 let clickCount = 0;
+let audioContext = null;
+
+// Функция для получения случайного факта
+function getRandomFact() {
+    const randomIndex = Math.floor(Math.random() * retroFacts.length);
+    return retroFacts[randomIndex];
+}
 
 // Функция для обновления экрана
-function updateScreen(screenContent, message, isSpecial = false) {
+function updateScreen(screenContent, message) {
+    if (!screenContent) return;
     screenContent.innerHTML = message;
     screenContent.classList.add('screen-text-animation');
     setTimeout(() => {
         screenContent.classList.remove('screen-text-animation');
     }, 300);
     
-    // Добавляем звуковой эффект (пиканье)
     playBeep();
 }
 
 // Функция для воспроизведения звука
 function playBeep() {
     try {
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        if (!audioContext) {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        
         const oscillator = audioContext.createOscillator();
         const gainNode = audioContext.createGain();
         
@@ -41,10 +51,10 @@ function playBeep() {
         gainNode.gain.exponentialRampToValueAtTime(0.00001, audioContext.currentTime + 0.1);
         oscillator.stop(audioContext.currentTime + 0.1);
         
-        // Закрываем контекст после звука
-        setTimeout(() => audioContext.close(), 200);
+        if (audioContext.state === 'suspended') {
+            audioContext.resume();
+        }
     } catch(e) {
-        // Если звук не поддерживается, просто игнорируем
         console.log("Audio not supported");
     }
 }
@@ -61,12 +71,13 @@ function initRetroConsole() {
         btn.addEventListener('click', function(e) {
             e.stopPropagation();
             clickCount++;
-            counterSpan.textContent = clickCount;
+            if (counterSpan) counterSpan.textContent = clickCount;
             
-            const factIndex = parseInt(this.getAttribute('data-fact'));
-            const fact = retroFacts[factIndex % retroFacts.length];
+            // Показываем случайный факт
+            const randomFact = getRandomFact();
+            const buttonText = this.textContent;
             
-            updateScreen(screenContent, `🎮 Кнопка ${this.textContent} нажата!<br>📖 ${fact}`);
+            updateScreen(screenContent, `📖 ${randomFact}`);
         });
     });
     
@@ -75,7 +86,7 @@ function initRetroConsole() {
         btn.addEventListener('click', function(e) {
             e.stopPropagation();
             clickCount++;
-            counterSpan.textContent = clickCount;
+            if (counterSpan) counterSpan.textContent = clickCount;
             
             const direction = this.getAttribute('data-direction');
             let message = '';
@@ -95,7 +106,9 @@ function initRetroConsole() {
                     break;
             }
             
-            updateScreen(screenContent, `🎮 Нажато: ${direction.toUpperCase()}<br>${message}`);
+            // Добавляем случайный факт для D-Pad
+            const randomFact = getRandomFact();
+            updateScreen(screenContent, `<br>${message}<br>📖 ${randomFact}`);
         });
     });
     
@@ -103,17 +116,7 @@ function initRetroConsole() {
     const consoleCard = document.getElementById('retroConsole');
     let hoverTimeout;
     
-    consoleCard.addEventListener('mouseenter', () => {
-        hoverTimeout = setTimeout(() => {
-            const randomFact = retroFacts[Math.floor(Math.random() * retroFacts.length)];
-            updateScreen(screenContent, `🤔 Знаете ли вы?<br>${randomFact}`);
-        }, 2000);
-    });
-    
-    consoleCard.addEventListener('mouseleave', () => {
-        clearTimeout(hoverTimeout);
-        updateScreen(screenContent, `Нажми на кнопки!<br>👇👇👇`);
-    });
+
     
     // Эффект при загрузке страницы
     setTimeout(() => {
