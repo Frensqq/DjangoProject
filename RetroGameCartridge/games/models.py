@@ -185,7 +185,6 @@ class Game(models.Model):
         verbose_name="Цена",
         null=True,
         blank=True,
-        help_text="Цена в рублях"
     )
     
     video_review_url = models.URLField(
@@ -193,7 +192,7 @@ class Game(models.Model):
         max_length=500,
         blank=True,
         null=True,
-        help_text="Ссылка на YouTube видео с обзором"
+        help_text="Ссылка на видео с обзором"
     )
     
     is_available = models.BooleanField(

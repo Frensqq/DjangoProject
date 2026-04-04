@@ -137,7 +137,7 @@ class GameForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['game_studio'].empty_values = "Неизвестно"
+        self.fields['game_studio'].empty_label = "Выберите студию"
 
         for field_name, field in self.fields.items():
             if isinstance(field.widget, forms.CheckboxInput):
