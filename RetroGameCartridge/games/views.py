@@ -343,37 +343,71 @@ def studio_create(request):
     return render(request, 'games/studio_form.html', {'form': form, 'title': 'Добавить студию'})
 
 
-# Список жанров
+# Список жанров с поиском
 def category_list(request):
     """
-    Отображает список всех жанров.
+    Отображает список всех жанров с возможностью поиска.
     """
     categories = Category.objects.prefetch_related('games').all()
-    return render(request, 'games/category_list.html', {'categories': categories})
+    
+    # Получаем параметры поиска
+    query = request.GET.get('q')
+    
+    # Поиск по названию или описанию
+    if query:
+        categories = categories.filter(
+            Q(name__icontains=query) |
+            Q(description__icontains=query)
+        )
+    
+    context = {
+        'categories': categories,
+    }
+    return render(request, 'games/category_list.html', context)
 
 
-# Добавление жанра
+# Добавление жанра (уже есть, но обновим)
 @login_required
 def category_create(request):
     """
     Обрабатывает создание нового жанра.
-    GET: отображает пустую форму
-    POST: сохраняет жанр и перенаправляет на список жанров
     """
     if request.method == 'POST':
-        # Создаем форму с данными POST
         form = CategoryForm(request.POST)
         if form.is_valid():
-            # Сохраняем жанр
             category = form.save()
             messages.success(request, f'Жанр "{category.name}" успешно добавлен!')
             return redirect('games:category_list')
     else:
-        # GET запрос - создаем пустую форму
         form = CategoryForm()
     
-    return render(request, 'games/category_form.html', {'form': form, 'title': 'Добавить жанр'})
+    return render(request, 'games/category_form.html', {
+        'form': form, 
+        'title': 'Добавить жанр'
+    })
 
+
+# Редактирование жанра
+@login_required
+def category_update(request, pk):
+    """
+    Обрабатывает редактирование существующего жанра.
+    """
+    category = get_object_or_404(Category, pk=pk)
+    
+    if request.method == 'POST':
+        form = CategoryForm(request.POST, instance=category)
+        if form.is_valid():
+            category = form.save()
+            messages.success(request, f'Жанр "{category.name}" успешно обновлен!')
+            return redirect('games:category_list')
+    else:
+        form = CategoryForm(instance=category)
+    
+    return render(request, 'games/category_form.html', {
+        'form': form,
+        'title': 'Редактировать жанр'
+    })
 
 # Список платформ
 def platform_list(request):
