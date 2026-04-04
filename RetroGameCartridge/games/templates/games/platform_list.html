@@ -35,11 +35,11 @@
                         🎯
                     {% elif 'nintendo' in platform.name|lower %}
                         ⭐
-                    elif 'pc' in platform.name|lower or 'windows' in platform.name|lower %}
+                    {% elif 'pc' in platform.name|lower or 'windows' in platform.name|lower %}
                         💻
-                    elif 'sega' in platform.name|lower %}
+                    {% elif 'sega' in platform.name|lower %}
                         🦔
-                    else %}
+                    {% else %}
                         🕹️
                     {% endif %}
                 </span>
@@ -61,6 +61,9 @@
             </div>
             <div class="game-card-footer">
                 <a href="{% url 'games:game_list' %}?platform={{ platform.id }}" class="btn btn-info btn-sm">Игры на платформе</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'games:platform_update' platform.id %}" class="btn btn-primary btn-sm">✏️ Редактировать</a>
+                {% endif %}
             </div>
         </div>
     {% empty %}
@@ -75,8 +78,4 @@
 {% endif %}
 
 <p class="text-muted">Всего найдено: {{ platforms|length }} платформ</p>
-
-
-
-
 {% endblock %}

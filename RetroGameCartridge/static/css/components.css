@@ -121,3 +121,37 @@
 .search-card {
     margin-bottom: 24px;
 }
+
+
+/* Дополнительные стили для платформ */
+.platform-icon {
+    font-size: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 150px;
+}
+
+.platform-stats {
+    display: flex;
+    gap: 16px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #dee2e6;
+}
+
+.platform-stat {
+    flex: 1;
+    text-align: center;
+}
+
+.platform-stat-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.platform-stat-label {
+    font-size: 12px;
+    color: #6c757d;
+}

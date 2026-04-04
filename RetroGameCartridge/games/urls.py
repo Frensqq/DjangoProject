@@ -83,4 +83,8 @@ urlpatterns = [
     # Создание новой платформы
     path('platforms/create/', views.platform_create, name='platform_create'),
     # Пример: /platforms/create/
+
+    # Редактирование платформы
+    path('platforms/<int:pk>/update/', views.platform_update, name='platform_update')
+
 ]

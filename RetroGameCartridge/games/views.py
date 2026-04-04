@@ -381,6 +381,17 @@ def platform_list(request):
     Отображает список всех платформ.
     """
     platforms = Platform.objects.prefetch_related('games').all()
+
+    query = request.GET.get('q')
+    
+    # Поиск по названию или производителю
+    if query:
+        platforms = platforms.filter(
+            Q(name__icontains=query) |
+            Q(manufacturer__icontains=query)
+        )
+
+
     return render(request, 'games/platform_list.html', {'platforms': platforms})
 
 
@@ -406,6 +417,27 @@ def platform_create(request):
     
     return render(request, 'games/platform_form.html', {'form': form, 'title': 'Добавить платформу'})
 
+# Редактирование платформы (добавим)
+@login_required
+def platform_update(request, pk):
+    """
+    Обрабатывает редактирование существующей платформы.
+    """
+    platform = get_object_or_404(Platform, pk=pk)
+    
+    if request.method == 'POST':
+        form = PlatformForm(request.POST, instance=platform)
+        if form.is_valid():
+            platform = form.save()
+            messages.success(request, f'Платформа "{platform.name}" успешно обновлена!')
+            return redirect('games:platform_list')
+    else:
+        form = PlatformForm(instance=platform)
+    
+    return render(request, 'games/platform_form.html', {
+        'form': form,
+        'title': 'Редактировать платформу'
+    })
 
 # Регистрация пользователя
 def register(request):
