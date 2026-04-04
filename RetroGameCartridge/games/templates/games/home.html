@@ -26,6 +26,9 @@
 <div class="games-grid">
     {% for game in recent_games %}
         <div class="game-card">
+            {% if game.cover_image %}
+                <img src="{{ game.cover_image.url }}" class="game-card-image" alt="{{ game.name }}">
+            {% endif %}
             <div class="game-card-body">
                 <h5 class="game-card-title">{{ game.name }}</h5>
                 <p class="game-card-text">
@@ -35,7 +38,7 @@
             </div>
         </div>
     {% empty %}
-        <p>Пока нет игр</p>
+        <div class="alert alert-info">Пока нет игр</div>
     {% endfor %}
 </div>
 

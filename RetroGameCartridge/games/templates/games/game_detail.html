@@ -62,6 +62,10 @@
             
             <div class="form-actions">
                 <a href="{% url 'games:game_list' %}" class="btn btn-secondary">Назад к списку</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'games:game_update' game.id %}" class="btn btn-primary">Редактировать</a>
+                    <a href="{% url 'games:game_delete' game.id %}" class="btn btn-danger">Удалить</a>
+                {% endif %}
             </div>
         </div>
     </div>

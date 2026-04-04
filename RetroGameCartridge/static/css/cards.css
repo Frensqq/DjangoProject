@@ -1,0 +1,128 @@
+/* Карточки - игры, жанры, студии, платформы */
+
+/* Сетка карточек */
+.games-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin: 24px 0;
+}
+
+/* Карточка игры */
+.game-card {
+    width: calc(33.333% - 16px);
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    overflow: hidden;
+}
+
+.game-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.game-card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    background-color: #f8f9fa;
+}
+
+.game-card-body {
+    padding: 16px;
+}
+
+.game-card-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0 0 8px 0;
+    color: #212529;
+}
+
+.game-card-subtitle {
+    font-size: 14px;
+    color: #6c757d;
+    margin: 0 0 12px 0;
+}
+
+.game-card-text {
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0 0 12px 0;
+    color: #495057;
+}
+
+.game-card-footer {
+    padding: 12px 16px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+    display: flex;
+    gap: 8px;
+}
+
+/* Детальная страница */
+.detail-container {
+    display: flex;
+    gap: 32px;
+    margin-bottom: 32px;
+}
+
+.detail-image {
+    flex: 0 0 300px;
+}
+
+.detail-image img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.detail-info {
+    flex: 1;
+}
+
+.detail-info dl {
+    margin: 0;
+}
+
+.detail-info dt {
+    font-weight: bold;
+    margin-top: 16px;
+    margin-bottom: 4px;
+    color: #495057;
+}
+
+.detail-info dt:first-child {
+    margin-top: 0;
+}
+
+.detail-info dd {
+    margin-bottom: 16px;
+    margin-left: 0;
+    color: #212529;
+}
+
+/* Карточка формы */
+.form-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+    margin-bottom: 24px;
+}
+
+.form-card-header {
+    padding: 20px 24px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.form-card-header h3 {
+    margin: 0;
+}
+
+.form-card-body {
+    padding: 24px;
+}

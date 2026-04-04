@@ -299,7 +299,25 @@ def studio_list(request):
     Отображает список всех студий-разработчиков.
     """
     studios = GameStudio.objects.prefetch_related('games').all()
-    return render(request, 'games/studio_list.html', {'studios': studios})
+
+    # Получаем параметры фильтрации из GET запроса
+    query = request.GET.get('q')
+    
+    # Поиск по тексту (название, страна, глава компании)
+    if query:
+        studios = studios.filter(
+            Q(name__icontains=query) |  # Название содержит query (без учета регистра)
+            Q(country__icontains=query) |  # Описание содержит query
+            Q(director__icontains=query)  # Название студии содержит query
+        )
+    
+
+    # Контекст для шаблона
+    context = {
+        'studios': studios,
+    }
+
+    return render(request, 'games/studio_list.html', context)
 
 
 # Добавление студии

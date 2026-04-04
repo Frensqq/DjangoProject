@@ -16,13 +16,16 @@
                     <div class="form-group">
                         <label for="{{ field.id_for_label }}">
                             {{ field.label }}
+                            {% if field.field.required %}
+                                <span style="color: #dc3545;">*</span>
+                            {% endif %}
                         </label>
                         {{ field }}
                         {% if field.help_text %}
                             <small class="form-text">{{ field.help_text }}</small>
                         {% endif %}
                         {% if field.errors %}
-                            <div class="alert-danger" style="padding: 8px 12px; margin-top: 4px;">
+                            <div class="alert alert-danger" style="margin-top: 4px; padding: 8px 12px;">
                                 {{ field.errors }}
                             </div>
                         {% endif %}
@@ -30,8 +33,14 @@
                 {% endfor %}
                 
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-success">Сохранить</button>
-                    <a href="{% url 'games:game_list' %}" class="btn btn-secondary">Отмена</a>
+                    <button type="submit" class="btn btn-success">
+                        {% if 'Редактировать' in title %}
+                            💾 Обновить
+                        {% else %}
+                            ➕ Добавить
+                        {% endif %}
+                    </button>
+                    <a href="{% url 'games:platform_list' %}" class="btn btn-secondary">Отмена</a>
                 </div>
             </form>
         </div>

@@ -1,0 +1,67 @@
+{% extends 'games/base.html' %}
+
+{% block title %}Список студий{% endblock %}
+
+{% block content %}
+<h1>Каталог студий</h1>
+
+<div class="form-card">
+    <div class="form-card-header">
+        <h3>Поиск</h3>
+    </div>
+    <div class="form-card-body">
+        <form method="get">
+            <div class="form-group">
+                <input type="text" name="q" class="form-control"
+                 placeholder="Поиск по названию студии..." 
+                 value="{{ request.GET.q }}">
+            </div>
+            <div class="form-actions" style="margin-top: 0; border-top: none; padding-top: 0;">
+                <button type="submit" class="btn btn-primary">Найти</button>
+                <a href="{% url 'games:studio_list' %}" class="btn btn-secondary">Сбросить</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="games-grid">
+    {% for studio in studios %}
+        <div class="game-card">
+            {% if studio.logo %}
+                <img src="{{ studio.logo.url }}" class="game-card-image" alt="{{ studio.name }}">
+            {% else %}
+                <div class="game-card-image" style="background: #f8f9fa; display: flex; align-items: center; justify-content: center;">
+                    <span style="font-size: 48px;">🏢</span>
+                </div>
+            {% endif %}
+            <div class="game-card-body">
+                <h5 class="game-card-title">{{ studio.name }}</h5>
+                <p class="game-card-text">
+                    <strong>Год основания:</strong> {{ studio.year_foundation|default:"Не указан" }}<br>
+                    <strong>Страна:</strong> {{ studio.country|default:"Не указана" }}<br>
+                    <strong>Глава студии:</strong> {{ studio.director|default:"Не указан" }}<br>
+                    {% if studio.website %}
+                        <strong>Сайт:</strong> <a href="{{ studio.website }}" target="_blank">{{ studio.website|truncatechars:30 }}</a>
+                    {% endif %}
+                </p>
+                <p class="game-card-text">
+                    <strong>Игр в каталоге:</strong> {{ studio.games.count }}
+                </p>
+            </div>
+            <div class="game-card-footer">
+                <a href="{% url 'games:game_list' %}?studio={{ studio.id }}" class="btn btn-info btn-sm">Игры студии</a>
+            </div>
+        </div>
+    {% empty %}
+        <div class="alert alert-info">Студии не найдены</div>
+    {% endfor %}
+</div>
+
+{% if user.is_authenticated %}
+    <div class="mt-3">
+        <a href="{% url 'games:studio_create' %}" class="btn btn-success">➕ Добавить новую студию</a>
+    </div>
+{% endif %}
+
+<p class="text-muted">Всего найдено: {{ studios|length }} студий</p>
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'games/base.html' %}
+
+{% block title %}Список платформ{% endblock %}
+
+{% block content %}
+<h1>Каталог платформ</h1>
+
+<div class="form-card">
+    <div class="form-card-header">
+        <h3>Поиск</h3>
+    </div>
+    <div class="form-card-body">
+        <form method="get">
+            <div class="form-group">
+                <input type="text" name="q" class="form-control"
+                 placeholder="Поиск по названию платформы или производителю..." 
+                 value="{{ request.GET.q }}">
+            </div>
+            <div class="form-actions" style="margin-top: 0; border-top: none; padding-top: 0;">
+                <button type="submit" class="btn btn-primary">Найти</button>
+                <a href="{% url 'games:platform_list' %}" class="btn btn-secondary">Сбросить</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="games-grid">
+    {% for platform in platforms %}
+        <div class="game-card">
+            <div class="game-card-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center;">
+                <span style="font-size: 64px;">
+                    {% if 'playstation' in platform.name|lower %}
+                        🎮
+                    {% elif 'xbox' in platform.name|lower %}
+                        🎯
+                    {% elif 'nintendo' in platform.name|lower %}
+                        ⭐
+                    elif 'pc' in platform.name|lower or 'windows' in platform.name|lower %}
+                        💻
+                    elif 'sega' in platform.name|lower %}
+                        🦔
+                    else %}
+                        🕹️
+                    {% endif %}
+                </span>
+            </div>
+            <div class="game-card-body">
+                <h5 class="game-card-title">{{ platform.name }}</h5>
+                <p class="game-card-text">
+                    <strong>Производитель:</strong> {{ platform.manufacturer|default:"Не указан" }}<br>
+                    <strong>Год выпуска:</strong> {{ platform.release_year|default:"Не указан" }}<br>
+                </p>
+                {% if platform.description %}
+                    <p class="game-card-text">
+                        <strong>Описание:</strong> {{ platform.description|truncatechars:100 }}
+                    </p>
+                {% endif %}
+                <p class="game-card-text">
+                    <strong>Игр на платформе:</strong> {{ platform.games.count }}
+                </p>
+            </div>
+            <div class="game-card-footer">
+                <a href="{% url 'games:game_list' %}?platform={{ platform.id }}" class="btn btn-info btn-sm">Игры на платформе</a>
+            </div>
+        </div>
+    {% empty %}
+        <div class="alert alert-info">Платформы не найдены</div>
+    {% endfor %}
+</div>
+
+{% if user.is_authenticated %}
+    <div class="mt-3">
+        <a href="{% url 'games:platform_create' %}" class="btn btn-success">➕ Добавить новую платформу</a>
+    </div>
+{% endif %}
+
+<p class="text-muted">Всего найдено: {{ platforms|length }} платформ</p>
+
+
+
+
+{% endblock %}

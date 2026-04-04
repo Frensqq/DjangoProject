@@ -1,0 +1,131 @@
+/* Вся остальная адаптивность которой нет в grid.css */
+
+/* Планшеты */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    /* Навбар */
+    .navbar-toggler {
+        display: block;
+    }
+    
+    .navbar-nav {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 15px;
+    }
+    
+    .navbar-nav.active {
+        display: flex;
+    }
+    
+    /* Карточки */
+    .game-card {
+        width: 50%;
+    }
+    
+    .stats-grid {
+        flex-direction: column;
+        gap: 16px;
+    }
+    
+    /* Детальная страница */
+    .detail-container {
+        flex-direction: column;
+    }
+    
+    .detail-image {
+        flex: 0 0 auto;
+        max-width: 250px;
+        margin: 0 auto;
+    }
+    
+    /* Сетка */
+    .col-sm-12 { width: 100%; }
+    .col-sm-6 { width: 50%; }
+    
+    /* Консоль */
+    .console-buttons {
+        gap: 12px;
+    }
+    
+    .retro-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 14px;
+    }
+    
+    .dpad-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+    }
+}
+
+/* Мобильные телефоны */
+@media (max-width: 576px) {
+    h1 {
+        font-size: 24px;
+    }
+    
+    h2 {
+        font-size: 20px;
+    }
+    
+    .game-card {
+        width: 100%;
+    }
+    
+    .form-card-header {
+        padding: 15px;
+    }
+    
+    .form-card-body {
+        padding: 15px;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .form-actions .btn {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .stats-grid {
+        gap: 12px;
+    }
+    
+    .stat-card {
+        padding: 16px;
+    }
+    
+    .stat-number {
+        font-size: 32px;
+    }
+    
+    .retro-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 12px;
+    }
+}
+
+/* Десктопы */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .game-card {
+        width: calc(33.333% - 16px);
+    }
+}
+
+/* Большие экраны */
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1140px;
+    }
+}
