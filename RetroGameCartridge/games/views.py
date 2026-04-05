@@ -488,7 +488,7 @@ def register(request):
             user = form.save()
             # Автоматический вход после регистрации
             login(request, user)
-            messages.success(request, 'Вы успешно зарегистрированы!')
+            messages.success(request, f'Добро пожаловать, {user.username}! Вы успешно зарегистрированы.')
             return redirect('games:home')
     else:
         # GET запрос - создаем пустую форму

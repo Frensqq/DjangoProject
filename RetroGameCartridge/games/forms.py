@@ -177,29 +177,26 @@ class ReviewForm(forms.ModelForm):
 class UserRegistrationForm(UserCreationForm):
     """
     Форма для регистрации новых пользователей.
-    Расширяет стандартную форму регистрации Django.
     """
     email = forms.EmailField(
         required=True,
         label='Email',
         widget=forms.EmailInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Email'
+            'placeholder': 'example@mail.com'
         })
     )
     
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2']
-        widgets = {
-            'username': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Имя пользователя'
-            }),
-        }
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Имя пользователя'
+        })
         self.fields['password1'].widget.attrs.update({
             'class': 'form-control',
             'placeholder': 'Пароль'
@@ -208,13 +205,3 @@ class UserRegistrationForm(UserCreationForm):
             'class': 'form-control',
             'placeholder': 'Подтверждение пароля'
         })
-    
-    def save(self, saved=True):
-        """
-        Сохраняет пользователя с email.
-        """
-        user = super().save(commit=False)
-        user.email = self.cleaned_data['email']
-        if saved:
-            user.save()
-        return user
