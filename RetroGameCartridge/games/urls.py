@@ -88,6 +88,8 @@ urlpatterns = [
     # Пример: /platforms/create/
 
     # Редактирование платформы
-    path('platforms/<int:pk>/update/', views.platform_update, name='platform_update')
+    path('platforms/<int:pk>/update/', views.platform_update, name='platform_update'),
 
+     # Регистрация
+    path('register/', views.register, name='register'),
 ]

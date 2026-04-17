@@ -4,19 +4,19 @@
 
 {% block content %}
 <div class="stats-grid">
-    <div class="stat-card bg-primary">
+    <div class="stat-card">
         <h5>Всего игр</h5>
         <p class="stat-number">{{ total_games }}</p>
     </div>
-    <div class="stat-card bg-success">
+    <div class="stat-card">
         <h5>Студий</h5>
         <p class="stat-number">{{ total_studios }}</p>
     </div>
-    <div class="stat-card bg-info">
+    <div class="stat-card">
         <h5>Жанров</h5>
         <p class="stat-number">{{ total_categories }}</p>
     </div>
-    <div class="stat-card bg-warning">
+    <div class="stat-card">
         <h5>Платформ</h5>
         <p class="stat-number">{{ total_platforms }}</p>
     </div>
@@ -42,39 +42,5 @@
     {% endfor %}
 </div>
 
-<!-- Ретро-консоль -->
-<div class="retro-console">
-    <div class="console-header">
-        <h3>🎮 Консоль знаний 🎮</h3>
-    </div>
-    <div class="console-body">
-        <div class="console-screen" id="consoleScreen">
-            <div id="screenContent">Нажми на кнопки!</div>
-        </div>
-        
-        <div class="console-buttons">
-            <button class="retro-btn btn-danger" data-fact="0">🔴 A</button>
-            <button class="retro-btn btn-warning" data-fact="1">🟡 B</button>
-            <button class="retro-btn btn-primary" data-fact="2">🔵 X</button>
-            <button class="retro-btn btn-success" data-fact="3">🟢 Y</button>
-        </div>
-        
-        <div class="dpad">
-            <div class="dpad-buttons">
-                <div class="dpad-row">
-                    <button class="dpad-btn" data-direction="up">▲</button>
-                </div>
-                <div class="dpad-row">
-                    <button class="dpad-btn" data-direction="left">◀</button>
-                    <button class="dpad-btn" data-direction="down">▼</button>
-                    <button class="dpad-btn" data-direction="right">▶</button>
-                </div>
-            </div>
-        </div>
-        
-        <div class="click-counter">
-            <p>Нажатий: <span id="clickCounter">0</span></p>
-        </div>
-    </div>
-</div>
+
 {% endblock %}
