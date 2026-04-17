@@ -1,4 +1,14 @@
 /* Карточки - игры, жанры, студии, платформы */
+:root {
+    --phone_window: #F6E8CB;
+    --card_element: #567067;
+    --white_blue: #c5dfdf;
+    --yellow: #F6E8CB;
+    --pulrple: #a71666;
+    --orandge: #ec6a52;
+    --pastel_orange: #f3b7ad;
+    --error: #b13542;
+}
 
 /* Сетка карточек */
 .games-grid {
@@ -11,7 +21,7 @@
 /* Карточка игры */
 .game-card {
     width: calc(33.333% - 16px);
-    background: white;
+    background: var(--card_element);
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     transition: transform 0.2s, box-shadow 0.2s;
@@ -32,6 +42,8 @@
 
 .game-card-body {
     padding: 16px;
+    background: var(--card_element);
+
 }
 
 .game-card-title {
@@ -43,7 +55,7 @@
 
 .game-card-subtitle {
     font-size: 14px;
-    color: #6c757d;
+    color: var(--card_element);
     margin: 0 0 12px 0;
 }
 
