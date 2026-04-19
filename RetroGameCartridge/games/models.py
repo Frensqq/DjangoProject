@@ -200,9 +200,7 @@ class Game(models.Model):
         verbose_name="Доступна для покупки"
     )
     
-    average_rating = models.DecimalField(
-        max_digits=3,
-        decimal_places=2,
+    average_rating = models.FloatField(
         default=0,
         verbose_name="Средний рейтинг"
     )
@@ -229,14 +227,17 @@ class Game(models.Model):
         return reverse('games:game_detail', args=[str(self.id)])
     
     def update_rating(self):
-        #Обновляет средний рейтинг и количество отзывов
+        """Обновляет средний рейтинг и количество отзывов"""
         reviews = self.reviews.filter(rating__isnull=False)
         self.reviews_count = reviews.count()
+        
         if self.reviews_count > 0:
             total = sum(review.rating for review in reviews)
             self.average_rating = total / self.reviews_count
         else:
             self.average_rating = 0
+        
+        # Сохраняем с указанием полей
         self.save(update_fields=['average_rating', 'reviews_count'])
     
     class Meta:
@@ -294,9 +295,11 @@ class Review(models.Model):
         return f"Отзыв от {self.user.username} к {self.game.name}{rating_str}"
     
     def save(self, *args, **kwargs):
-        #При сохранении отзыва обновляем рейтинг игры
         super().save(*args, **kwargs)
-        self.game.update_rating()
+        try:
+            self.game.update_rating()
+        except Exception as e:
+            print(f"Error updating rating: {e}")
     
     def delete(self, *args, **kwargs):
         #При удалении отзыва обновляем рейтинг игры
