@@ -173,18 +173,21 @@ def review_create(request, game_id):
 
 @login_required
 def review_update(request, pk):
-    """Редактирование отзыва - только модераторы и админы"""
+    """Редактирование отзыва - только автор или модератор/админ"""
     review = get_object_or_404(Review, pk=pk)
     
-    if not (request.user.is_superuser or request.user.groups.filter(name='Moderator').exists()):
-        messages.error(request, 'Вы не можете редактировать чужие отзывы!')
+    is_author = review.user == request.user
+    is_moderator = request.user.is_superuser or request.user.groups.filter(name='Moderator').exists()
+    
+    if not (is_author or is_moderator):
+        messages.error(request, 'Вы не можете редактировать этот отзыв!')
         return redirect('games:game_detail', pk=review.game.pk)
     
     if request.method == 'POST':
         form = ReviewForm(request.POST, instance=review)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Отзыв обновлен!')
+            messages.success(request, 'Ваш отзыв обновлен!')
             return redirect('games:game_detail', pk=review.game.pk)
     else:
         form = ReviewForm(instance=review)
@@ -194,17 +197,20 @@ def review_update(request, pk):
 
 @login_required
 def review_delete(request, pk):
-    """Удаление отзыва - только модераторы и админы"""
+    """Удаление отзыва - только автор или модератор/админ"""
     review = get_object_or_404(Review, pk=pk)
     
-    if not (request.user.is_superuser or request.user.groups.filter(name='Moderator').exists()):
-        messages.error(request, 'Вы не можете удалять чужие отзывы!')
+    is_author = review.user == request.user
+    is_moderator = request.user.is_superuser or request.user.groups.filter(name='Moderator').exists()
+    
+    if not (is_author or is_moderator):
+        messages.error(request, 'Вы не можете удалить этот отзыв!')
         return redirect('games:game_detail', pk=review.game.pk)
     
     if request.method == 'POST':
         game_pk = review.game.pk
         review.delete()
-        messages.success(request, 'Отзыв удален!')
+        messages.success(request, 'Ваш отзыв удален!')
         return redirect('games:game_detail', pk=game_pk)
     
     return render(request, 'games/review_confirm_delete.html', {'review': review})

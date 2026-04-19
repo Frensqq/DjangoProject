@@ -95,13 +95,13 @@
                             </div>
                             <div style="display: flex; justify-content: space-between; align-items: center;">
                                 <small style="color: #888;">{{ review.created_at|date:"d.m.Y H:i" }}</small>
-                                
-                                {# Кнопки редактирования/удаления - только для модераторов и админов #}
-                                {% if user.is_superuser or user.groups.all.0.name == 'Moderator' %}
-                                    <div>
-                                        <a href="{% url 'games:review_update' review.id %}" class="btn btn-primary btn-sm">Редактировать</a>
-                                        <a href="{% url 'games:review_delete' review.id %}" class="btn btn-danger btn-sm">Удалить</a>
-                                    </div>
+                                {% if user.is_authenticated %}
+                                    {% if review.user == user or user.is_superuser or user.groups.all.0.name == 'Moderator' %}
+                                        <div>
+                                            <a href="{% url 'games:review_update' review.id %}" class="btn btn-primary btn-sm">Редактировать</a>
+                                            <a href="{% url 'games:review_delete' review.id %}" class="btn btn-danger btn-sm">Удалить</a>
+                                        </div>
+                                    {% endif %}
                                 {% endif %}
                             </div>
                         </div>
