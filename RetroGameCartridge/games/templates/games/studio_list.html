@@ -57,7 +57,7 @@
     {% endfor %}
 </div>
 
-{% if user.is_authenticated %}
+{% if user.is_superuser or user.groups.all.0.name == 'Moderator' %}
     <div class="add-entry">
         <a href="{% url 'games:studio_create' %}" class="btn btn-success">Добавить новую студию</a>
     </div>

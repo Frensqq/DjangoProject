@@ -61,7 +61,7 @@
             </div>
             <div class="game-card-footer">
                 <a href="{% url 'games:game_list' %}?platform={{ platform.id }}" class="btn btn-info btn-sm">Игры на платформе</a>
-                {% if user.is_authenticated %}
+                {% if user.is_superuser or user.groups.all.0.name == 'Moderator' %}
                     <a href="{% url 'games:platform_update' platform.id %}" class="btn btn-primary btn-sm">Редактировать</a>
                 {% endif %}
             </div>
@@ -71,7 +71,7 @@
     {% endfor %}
 </div>
 
-{% if user.is_authenticated %}
+{% if user.is_superuser or user.groups.all.0.name == 'Moderator' %}
     <div class="add-entry">
         <a href="{% url 'games:platform_create' %}" class="btn btn-success">Добавить новую платформу</a>
     </div>

@@ -37,6 +37,10 @@
         <div class="game-card">
             {% if game.cover_image %}
                 <img src="{{ game.cover_image.url }}" class="game-card-image" alt="{{ game.name }}">
+            {% else %}
+                <div class="game-card-image">
+                    <span style="font-size: 48px; color: #000;">No Image</span>
+                </div>
             {% endif %}
             <div class="game-card-body">
                 <h5 class="game-card-title">{{ game.name }}</h5>
@@ -61,7 +65,7 @@
 
 {% if user.is_authenticated %}
     <div class= "add-entry">
-        <a href="{% url 'games:game_create' %}" class="btn btn-success">➕ Добавить новую игру</a>
+        <a href="{% url 'games:game_create' %}" class="btn btn-success">Добавить новую игру</a>
     </div>
 {% endif %}
 
