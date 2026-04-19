@@ -11,9 +11,13 @@
         <div class="form-card-body">
             <div class="detail-container">
                 {% if game.cover_image %}
-                <div class="detail-image">
-                    <img src="{{ game.cover_image.url }}" alt="{{ game.name }}">
-                </div>
+                    <div class="detail-image">
+                        <img src="{{ game.cover_image.url }}" alt="{{ game.name }}">
+                    </div>
+                {% else %}
+                    <div class="game-card-image detail-image">
+                        <span style="font-size: 48px; color: #000;">No Image</span>
+                    </div>
                 {% endif %}
                 
                 <div class="detail-info">
