@@ -39,13 +39,6 @@ select[multiple].form-control {
     min-height: 120px;
 }
 
-.form-check-input {
-    width: 18px;
-    height: 18px;
-    margin-right: 8px;
-    cursor: pointer;
-}
-
 .form-text {
     display: block;
     margin-top: 4px;
@@ -61,15 +54,12 @@ select[multiple].form-control {
     border-top: 1px solid #dee2e6;
 }
 
-/* Валидация */
-.is-invalid {
-    border-color: #dc3545;
-}
-
-.invalid-feedback {
-    color: #dc3545;
-    font-size: 12px;
-    margin-top: 4px;
+.form-actions-studios{
+    display: flex;
+    gap: 12px;
+    margin-top: 0; 
+    border-top: none; 
+    padding-top: 0;
 }
 
 .alert-danger {

@@ -16,7 +16,7 @@
                  placeholder="Поиск по названию студии..." 
                  value="{{ request.GET.q }}">
             </div>
-            <div class="form-actions" style="margin-top: 0; border-top: none; padding-top: 0;">
+            <div class="form-actions-studios" >
                 <button type="submit" class="btn btn-primary">Найти</button>
                 <a href="{% url 'games:studio_list' %}" class="btn btn-secondary">Сбросить</a>
             </div>
@@ -30,8 +30,8 @@
             {% if studio.logo %}
                 <img src="{{ studio.logo.url }}" class="game-card-image" alt="{{ studio.name }}">
             {% else %}
-                <div class="game-card-image" style="background: #f8f9fa; display: flex; align-items: center; justify-content: center;">
-                    <span style="font-size: 48px;">🏢</span>
+                <div class="game-card-image">
+                    <span style="font-size: 48px; color: #000;">No Image</span>
                 </div>
             {% endif %}
             <div class="game-card-body">
@@ -58,8 +58,8 @@
 </div>
 
 {% if user.is_authenticated %}
-    <div class="mt-3">
-        <a href="{% url 'games:studio_create' %}" class="btn btn-success">➕ Добавить новую студию</a>
+    <div class="add-entry">
+        <a href="{% url 'games:studio_create' %}" class="btn btn-success">Добавить новую студию</a>
     </div>
 {% endif %}
 

@@ -62,7 +62,7 @@
             <div class="game-card-footer">
                 <a href="{% url 'games:game_list' %}?platform={{ platform.id }}" class="btn btn-info btn-sm">Игры на платформе</a>
                 {% if user.is_authenticated %}
-                    <a href="{% url 'games:platform_update' platform.id %}" class="btn btn-primary btn-sm">✏️ Редактировать</a>
+                    <a href="{% url 'games:platform_update' platform.id %}" class="btn btn-primary btn-sm">Редактировать</a>
                 {% endif %}
             </div>
         </div>
@@ -72,8 +72,8 @@
 </div>
 
 {% if user.is_authenticated %}
-    <div class="mt-3">
-        <a href="{% url 'games:platform_create' %}" class="btn btn-success">➕ Добавить новую платформу</a>
+    <div class="add-entry">
+        <a href="{% url 'games:platform_create' %}" class="btn btn-success">Добавить новую платформу</a>
     </div>
 {% endif %}
 

@@ -29,11 +29,19 @@
             {% if game.cover_image %}
                 <img src="{{ game.cover_image.url }}" class="game-card-image" alt="{{ game.name }}">
             {% endif %}
-            <div class="game-card-body">
+             <div class="game-card-body">
                 <h5 class="game-card-title">{{ game.name }}</h5>
+                <h6 class="game-card-subtitle">{{ game.game_studio.name }}</h6>
                 <p class="game-card-text">
-                    {{ game.release_date|date:"Y"|default:"Дата неизвестна" }}
+                    <strong>Год:</strong> {{ game.release_date|date:"Y"|default:"Не указан" }}<br>
+                    {% if game.price %}<strong>Цена:</strong> {{ game.price }} ₽<br>{% endif %}
+                    <strong>Статус:</strong> 
+                    <span class="badge {% if game.is_available %}badge-success{% else %}badge-danger{% endif %}">
+                        {% if game.is_available %}Доступна для скачивания{% else %}Нет на сайте{% endif %}
+                    </span>
                 </p>
+            </div>
+            <div class="game-card-footer">
                 <a href="{% url 'games:game_detail' game.id %}" class="btn btn-primary btn-sm">Подробнее</a>
             </div>
         </div>

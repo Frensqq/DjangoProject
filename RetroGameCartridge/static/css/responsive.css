@@ -1,70 +1,4 @@
-/* Вся остальная адаптивность которой нет в grid.css */
-
-/* Планшеты */
-@media (max-width: 768px) {
-    .container {
-        padding: 0 15px;
-    }
-    
-    /* Навбар */
-    .navbar-toggler {
-        display: block;
-    }
-    
-    .navbar-nav {
-        display: none;
-        width: 100%;
-        flex-direction: column;
-        gap: 10px;
-        margin-top: 15px;
-    }
-    
-    .navbar-nav.active {
-        display: flex;
-    }
-    
-    /* Карточки */
-    .game-card {
-        width: 50%;
-    }
-    
-    .stats-grid {
-        flex-direction: column;
-        gap: 16px;
-    }
-    
-    /* Детальная страница */
-    .detail-container {
-        flex-direction: column;
-    }
-    
-    .detail-image {
-        flex: 0 0 auto;
-        max-width: 250px;
-        margin: 0 auto;
-    }
-    
-    /* Сетка */
-    .col-sm-12 { width: 100%; }
-    .col-sm-6 { width: 50%; }
-    
-    /* Консоль */
-    .console-buttons {
-        gap: 12px;
-    }
-    
-    .retro-btn {
-        width: 50px;
-        height: 50px;
-        font-size: 14px;
-    }
-    
-    .dpad-btn {
-        width: 35px;
-        height: 35px;
-        font-size: 14px;
-    }
-}
+/* Адаптивность*/
 
 /* Мобильные телефоны */
 @media (max-width: 576px) {
@@ -74,6 +8,46 @@
     
     h2 {
         font-size: 20px;
+    }
+
+    .navbar-nav {
+        gap: 0.1rem;
+        width: 100%;
+    }
+
+    .navbar-nav a{
+        font-size: 10px;
+        line-height: 0.8%;
+    }
+    
+    .navbar-btn,
+    .navbar-nav span{
+        flex: 0 0 calc(50% - 0.25rem);
+        font-size: 0.6rem;
+        justify-content: center;
+        padding: 0.5rem 0.3rem;
+    }
+
+    .exit-btn{
+        width: max-content;
+    }
+
+    .btn {
+        width: 150px;
+    }
+    
+    .nav-line {
+        width: 100%;
+        height: 1px;
+        margin: 0.1rem 0;
+    }
+
+    .navbar-brand{
+        width: 100%;
+    }
+
+    .container a{
+        text-align: center;
     }
     
     .game-card {

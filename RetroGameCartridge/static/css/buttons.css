@@ -19,13 +19,9 @@
 }
 
 .btn-sm {
+    min-height: 30px;
     padding: 4px 10px;
-    font-size: 12px;
-}
-
-.btn-lg {
-    padding: 12px 24px;
-    font-size: 16px;
+    font-size: 10px;
 }
 
 /* Цвета кнопок */
@@ -70,6 +66,7 @@
 }
 
 .btn-info {
+    align-items: center;
     background-color: #17a2b8;
     color: white;
 }
@@ -79,20 +76,9 @@
     transform: translateY(-1px);
 }
 
-.btn-warning {
-    background-color: #ffc107;
-    color: #212529;
-}
-
 .btn-warning:hover {
     background-color: #e0a800;
     transform: translateY(-1px);
-}
-
-.btn-link {
-    background: none;
-    color: #007bff;
-    text-decoration: underline;
 }
 
 .btn-link:hover {

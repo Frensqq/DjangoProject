@@ -1,14 +1,16 @@
-/* Содержит самые основные базовые стили*/
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
 
 :root {
-    --phone_window: #F6E8CB;
-    --card_element: #567067;
-    --white_blue: #c5dfdf;
-    --yellow: #F6E8CB;
-    --pulrple: #a71666;
-    --orandge: #ec6a52;
-    --pastel_orange: #f3b7ad;
-    --error: #b13542;
+    --retro-dark: #1a0e1c;
+    --retro-purple: #2d1b36;
+    --retro-crt: #0a0f0a;
+    --retro-green: #6bff6b;
+    --retro-green-dark: #3a8c3a;
+    --retro-pink: #ff6b9d;
+    --retro-orange: #ff9966;
+    --retro-yellow: #ffde6b;
+    --retro-blue: #5dade2;
+    --retro-beige: #e8d5b5;
 }
 
 * {
@@ -18,26 +20,36 @@
 }
 
 body {
-    font-family:  "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 16px;
-    line-height: 1.5;
-    color: #212529;
-    background-color: var(--phone_window);
+    background: var(--retro-dark);
+    background-image: 
+        repeating-linear-gradient(0deg, 
+            rgba(0, 0, 0, 0.15) 0px, 
+            rgba(0, 0, 0, 0.15) 2px, 
+            transparent 2px, 
+            transparent 6px),
+        radial-gradient(circle at 20% 30%, rgba(107, 255, 107, 0.05) 1px, transparent 1px);
+    background-size: 100% 6px, 40px 40px;
+    font-family: 'VT323', 'Courier New', monospace;
+    font-size: 18px;
+    color: var(--retro-beige);
+    line-height: 1.6;
 }
 
 /* Контейнер */
 .container {
-    width: 100%;
-    max-width: 1200px;
+    max-width: 1280px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 24px;
 }
 
-/* Меню навигации */
 .navbar {
-    background-color: var(--card_element);
-    padding: 12px 0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background: var(--retro-purple);
+    border-bottom: 3px solid var(--retro-green);
+    padding: 16px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.3);
 }
 
 .navbar .container {
@@ -45,197 +57,243 @@ body {
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+    gap: 20px;
 }
 
 .navbar-brand {
-    color: white;
-    font-size: 24px;
-    font-weight: bold;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 20px;
+    color: var(--retro-green);
     text-decoration: none;
-    transition: opacity 0.2s;
+    text-shadow: 3px 3px 0 var(--retro-dark);
+    transition: all 0.2s;
+    letter-spacing: 2px;
 }
 
 .navbar-brand:hover {
-    opacity: 0.8;
-}
-
-.navbar-toggler {
-    display: none;
-    background: none;
-    border: 1px solid rgba(255,255,255,0.5);
-    border-radius: 4px;
-    padding: 8px 12px;
-    cursor: pointer;
-}
-
-.navbar-toggler span {
-    display: block;
-    width: 25px;
-    height: 2px;
-    background-color: white;
-    margin: 5px 0;
+    color: var(--retro-yellow);
+    text-shadow: 2px 2px 0 var(--retro-dark);
+    transform: translate(-1px, -1px);
 }
 
 .navbar-nav {
     display: flex;
-    list-style: none;
-    gap: 20px;
+    gap: 24px;
     align-items: center;
     flex-wrap: wrap;
 }
 
-.nav-link {
-    color: rgba(255,255,255,0.8);
+.navbar-btn {
+    color: var(--retro-beige);
     text-decoration: none;
-    transition: color 0.2s;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+    transition: all 0.2s;
+    padding: 8px 0;
+    border-bottom: 2px solid transparent;
 }
 
-.nav-link:hover {
-    color: white;
+.navbar-btn:hover {
+    color: var(--retro-green);
+    border-bottom-color: var(--retro-green);
 }
 
-/* Сообщения */
+.nav-line {
+    width: 2px;
+    height: 30px;
+    background: var(--retro-green-dark);
+    margin: 0 8px;
+}
+
+/* сообщения */
 .messages {
-    margin: 20px 0;
+    margin: 24px 0;
 }
 
 .alert {
-    padding: 12px 20px;
-    border-radius: 4px;
+    padding: 16px 20px;
+    border-left: 8px solid;
     margin-bottom: 16px;
+    font-family: monospace;
     position: relative;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
 }
 
 .alert-success {
-    background-color: #d4edda;
-    border: 1px solid #c3e6cb;
-    color: #155724;
+    border-left-color: var(--retro-green);
+    color: var(--retro-green);
 }
 
 .alert-error, .alert-danger {
-    background-color: #f8d7da;
-    border: 1px solid #f5c6cb;
-    color: #721c24;
+    border-left-color: var(--retro-pink);
+    color: var(--retro-pink);
 }
 
 .alert-info {
-    background-color: #d1ecf1;
-    border: 1px solid #bee5eb;
-    color: #0c5460;
+    border-left-color: var(--retro-blue);
+    color: var(--retro-blue);
+}
+
+.alert-info {
+    background: rgba(0,0,0,0.6);
+    border-left: 4px solid var(--retro-blue);
+    padding: 20px;
+    text-align: center;
+    font-family: monospace;
 }
 
 .alert .btn-close {
     position: absolute;
-    right: 12px;
+    right: 16px;
     top: 50%;
     transform: translateY(-50%);
     background: none;
     border: none;
-    font-size: 20px;
+    font-size: 24px;
     cursor: pointer;
     color: inherit;
-    opacity: 0.5;
+    opacity: 0.7;
 }
 
 .alert .btn-close:hover {
     opacity: 1;
 }
 
-/* Футер */
+/* футер */
 .footer {
-    margin-top: 50px;
-    padding: 30px 0;
-    background-color: var(--card_element);
-    border-top: 1px solid var(--error);
+    margin-top: 60px;
+    padding: 32px 0;
+    background: var(--retro-purple);
+    border-top: 3px solid var(--retro-green);
     text-align: center;
 }
 
-.text-muted {
-    color: var(--yellow);
+.footer-text {
+    color: var(--retro-beige);
+    opacity: 0.7;
+    font-size: 10px;
 }
 
-/* Заголовки */
+/* загаловки*/
 h1 {
-    font-size: 32px;
-    margin-bottom: 24px;
-    margin-top: 24px;
-    color: var(--error);
-
+    font-family: 'Press Start 2P', monospace;
+    font-size: 28px;
+    color: var(--retro-yellow);
+    text-shadow: 4px 4px 0 var(--retro-dark);
+    margin: 32px 0 24px;
+    letter-spacing: 2px;
 }
 
 h2 {
-    font-size: 28px;
-    margin-bottom: 24px;
-    margin-top: 32px;
-    color: var(--error);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 20px;
+    color: var(--retro-green);
+    margin: 40px 0 24px;
+    letter-spacing: 1px;
 }
 
 h3 {
-    font-size: 24px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 16px;
+    color: var(--retro-orange);
     margin-bottom: 16px;
-    color: var(--error);
-
 }
 
-/* Бэйджи */
+/* ===== БЭЙДЖИ ===== */
 .badge {
     display: inline-block;
-    padding: 4px 8px;
-    border-radius: 4px;
+    padding: 4px 12px;
     font-size: 12px;
-    font-weight: normal;
+    font-family: 'Press Start 2P', monospace;
+    border-radius: 0;
+    margin-right: 8px;
+    margin-bottom: 8px;
 }
 
 .badge-success {
-    background-color: #28a745;
-    color: white;
+    background: var(--retro-green-dark);
+    color: var(--retro-dark);
+    border: 1px solid var(--retro-green);
 }
 
 .badge-danger {
-    background-color: #dc3545;
-    color: white;
+    background: #8b3a4a;
+    color: var(--retro-pink);
+    border: 1px solid var(--retro-pink);
 }
 
 .badge-info {
-    background-color: #17a2b8;
-    color: white;
+    background: #2c5f6e;
+    color: var(--retro-blue);
+    border: 1px solid var(--retro-blue);
 }
 
 .badge-secondary {
-    background-color: #6c757d;
+    background: var(--retro-purple);
+    color: var(--retro-beige);
+    border: 1px solid var(--retro-beige);
+}
+
+/* кнопки */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all 0.1s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-primary {
+    background: var(--retro-blue);
+    color: var(--retro-dark);
+    box-shadow: 0 4px 0 #2c4f6e;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #2c4f6e;
+}
+
+.btn-success {
+    background: var(--retro-green);
+    color: var(--retro-dark);
+    box-shadow: 0 4px 0 #2a5a2a;
+}
+
+.btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #2a5a2a;
+}
+
+.btn-secondary {
+    background: #6c6f6e;
     color: white;
+    box-shadow: 0 4px 0 #4a4c4b;
 }
 
-/* Статистика */
-.stats-grid {
-    display: flex;
-    gap: 24px;
-    margin: 32px 0;
-    flex-wrap: wrap;
+.btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #4a4c4b;
 }
 
-.stat-card {
-    flex: 1;
-    min-width: 200px;
-    padding: 24px;
-    border-radius: 8px;
-    color: var(--yellow);
-    background-color: var(--error);
-    text-align: center;
+.btn-danger {
+    background: var(--retro-pink);
+    color: var(--retro-dark);
+    box-shadow: 0 4px 0 #8b3a5a;
 }
 
-.stat-card.bg-primary { background-color: #007bff; }
-.stat-card.bg-success { background-color: #28a745; }
-.stat-card.bg-info { background-color: #17a2b8; }
-.stat-card.bg-warning { background-color: #ffc107; }
-
-.stat-card h5 {
-    font-size: 18px;
-    margin-bottom: 10px;
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 9px;
 }
 
-.stat-number {
-    font-size: 48px;
-    font-weight: bold;
-    margin: 0;
+.btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0;
 }

@@ -1,140 +1,158 @@
-/* Карточки - игры, жанры, студии, платформы */
-:root {
-    --phone_window: #F6E8CB;
-    --card_element: #567067;
-    --white_blue: #c5dfdf;
-    --yellow: #F6E8CB;
-    --pulrple: #a71666;
-    --orandge: #ec6a52;
-    --pastel_orange: #f3b7ad;
-    --error: #b13542;
+/* Статистика */
+.stats-grid {
+    display: flex;
+    gap: 24px;
+    margin: 40px 0;
+    flex-wrap: wrap;
 }
 
-/* Сетка карточек */
+.stat-card {
+    flex: 1;
+    min-width: 180px;
+    background: linear-gradient(135deg, var(--retro-purple) 0%, #1a0e1c 100%);
+    border: 2px solid var(--retro-green);
+    padding: 24px;
+    text-align: center;
+    transition: all 0.2s;
+}
+
+.stat-card:hover {
+    border-color: var(--retro-yellow);
+}
+
+.stat-card h5 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 17px;
+    color: var(--retro-beige);
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+.stat-number {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 48px;
+    color: var(--retro-green);
+    text-shadow: 3px 3px 0 rgba(107, 255, 107, 0.3);
+    margin: 0;
+}
+
+/* Сетка игр */
 .games-grid {
     display: flex;
     flex-wrap: wrap;
     gap: 24px;
-    margin: 24px 0;
+    margin: 32px 0;
 }
 
 /* Карточка игры */
 .game-card {
     width: calc(33.333% - 16px);
-    background: var(--card_element);
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    transition: transform 0.2s, box-shadow 0.2s;
-    overflow: hidden;
+    background: var(--retro-purple);
+    border: 2px solid var(--retro-green);
+    transition: all 0.2s;
+    position: relative;
 }
 
 .game-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    border-color: var(--retro-yellow);
+    box-shadow: 0 8px 0 rgba(107, 255, 107, 0.2);
 }
 
 .game-card-image {
     width: 100%;
     height: 200px;
     object-fit: cover;
-    background-color: #f8f9fa;
+    border-bottom: 2px solid var(--retro-green);
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    background: #f8f9fa;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+}
+
+/* Заглушка для изображения */
+.game-card-image-placeholder {
+    width: 100%;
+    height: 200px;
+    background: repeating-linear-gradient(
+        45deg,
+        var(--retro-dark) 0px,
+        var(--retro-dark) 20px,
+        var(--retro-purple) 20px,
+        var(--retro-purple) 40px
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 64px;
 }
 
 .game-card-body {
     padding: 16px;
-    background: var(--card_element);
-
 }
 
 .game-card-title {
-    font-size: 18px;
-    font-weight: bold;
-    margin: 0 0 8px 0;
-    color: #212529;
-}
-
-.game-card-subtitle {
-    font-size: 14px;
-    color: var(--card_element);
-    margin: 0 0 12px 0;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 13px;
+    color: var(--retro-yellow);
+    margin-bottom: 12px;
+    line-height: 1.4;
 }
 
 .game-card-text {
     font-size: 14px;
-    line-height: 1.5;
-    margin: 0 0 12px 0;
-    color: #495057;
+    color: var(--retro-beige);
+    margin-bottom: 12px;
+}
+
+.game-card-text strong {
+    color: var(--retro-green);
 }
 
 .game-card-footer {
     padding: 12px 16px;
-    background-color: #f8f9fa;
-    border-top: 1px solid #dee2e6;
+    background: rgba(0,0,0,0.3);
+    border-top: 1px solid var(--retro-green-dark);
     display: flex;
-    gap: 8px;
+    gap: 12px;
 }
 
-/* Детальная страница */
-.detail-container {
-    display: flex;
-    gap: 32px;
-    margin-bottom: 32px;
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .game-card {
+        width: calc(50% - 12px);
+    }
+    
+    .stat-number {
+        font-size: 32px;
+    }
+    
+    h1 {
+        font-size: 20px;
+    }
+    
+    h2 {
+        font-size: 16px;
+    }
 }
 
-.detail-image {
-    flex: 0 0 300px;
-}
-
-.detail-image img {
-    width: 100%;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.detail-info {
-    flex: 1;
-}
-
-.detail-info dl {
-    margin: 0;
-}
-
-.detail-info dt {
-    font-weight: bold;
-    margin-top: 16px;
-    margin-bottom: 4px;
-    color: #495057;
-}
-
-.detail-info dt:first-child {
-    margin-top: 0;
-}
-
-.detail-info dd {
-    margin-bottom: 16px;
-    margin-left: 0;
-    color: #212529;
-}
-
-/* Карточка формы */
-.form-card {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    overflow: hidden;
-    margin-bottom: 24px;
-}
-
-.form-card-header {
-    padding: 20px 24px;
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #dee2e6;
-}
-
-.form-card-header h3 {
-    margin: 0;
-}
-
-.form-card-body {
-    padding: 24px;
+@media (max-width: 576px) {
+    .game-card {
+        width: 100%;
+    }
+    
+    .stats-grid {
+        flex-direction: column;
+    }
+    
+    .stat-card {
+        min-width: auto;
+    }
+    
+    .container {
+        padding: 0 16px;
+    }
 }

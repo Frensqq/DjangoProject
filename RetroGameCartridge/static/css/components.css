@@ -1,157 +1,137 @@
-/* Для интерактивного элемента ретро-консоль */
-
-.retro-console {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border: 3px solid #333;
-    border-radius: 15px;
-    margin: 48px 0;
-    overflow: hidden;
+/* Формы */
+.form-container {
+    max-width: 800px;
+    margin: 0 auto;
 }
 
-.console-header {
-    padding: 16px;
-    background-color: #212529;
-    text-align: center;
+.form-card {
+    background: var(--retro-purple);
+    border: 2px solid var(--retro-green);
+    margin: 24px 0;
 }
 
-.console-header h3 {
+.form-card-header {
+    padding: 20px 24px;
+    background: rgba(0,0,0,0.3);
+    border-bottom: 2px solid var(--retro-green);
+}
+
+.form-card-header h3 {
     margin: 0;
-    color: white;
+    color: var(--retro-yellow);
 }
 
-.console-body {
+.form-card-body {
     padding: 24px;
-    text-align: center;
 }
 
-.console-screen {
-    background: #111;
-    border: 2px solid #00ff00;
-    border-radius: 8px;
+.form-group {
+    margin-bottom: 24px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    color: var(--retro-green);
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    background: #0a0f0a;
+    border: 2px solid var(--retro-green-dark);
+    color: var(--retro-beige);
+    font-family: 'VT323', monospace;
+    font-size: 16px;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--retro-green);
+    box-shadow: 0 0 8px var(--retro-green);
+}
+
+textarea.form-control {
+    resize: vertical;
     min-height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Courier New', monospace;
-    color: #00ff00;
-    margin-bottom: 24px;
-    padding: 20px;
 }
 
-#screenContent {
-    text-align: center;
+select.form-control {
+    cursor: pointer;
 }
 
-.console-buttons {
+select[multiple].form-control {
+    min-height: 120px;
+}
+
+.form-text {
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--retro-beige);
+    opacity: 0.7;
+}
+
+.form-actions {
     display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 24px;
+    gap: 16px;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--retro-green-dark);
+}
+
+/* Ошибки*/
+.alert-danger {
+    background: rgba(139, 58, 74, 0.3);
+    padding: 8px 12px;
+    margin-top: 8px;
+    color: var(--retro-pink);
+}
+
+/* Детальная страница */
+.detail-container {
+    display: flex;
+    gap: 32px;
+    margin-bottom: 32px;
     flex-wrap: wrap;
 }
 
-.retro-btn {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    font-weight: bold;
-    font-size: 18px;
-    cursor: pointer;
-    transition: transform 0.1s;
-    border: 2px solid #333;
+.detail-image {
+    flex: 0 0 300px;
 }
 
-.retro-btn:active {
-    transform: scale(0.95);
+.detail-image img {
+    width: 100%;
+    border: 3px solid var(--retro-green);
+    image-rendering: pixelated;
 }
 
-.dpad {
-    display: inline-block;
-    background: #333;
-    padding: 10px;
-    border-radius: 10px;
-    margin-bottom: 16px;
-}
-
-.dpad-buttons {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.dpad-row {
-    display: flex;
-    justify-content: center;
-}
-
-.dpad-btn {
-    width: 45px;
-    height: 45px;
-    margin: 2px;
-    font-size: 18px;
-    cursor: pointer;
-    background-color: #6c757d;
-    border: none;
-    border-radius: 4px;
-    color: white;
-    transition: transform 0.05s;
-    font-weight: bold;
-}
-
-.dpad-btn:active {
-    transform: scale(0.95);
-    background-color: #ff6600;
-}
-
-.click-counter {
-    margin-top: 16px;
-    color: #6c757d;
-}
-
-@keyframes screenGlow {
-    from { text-shadow: 0 0 5px #00ff00; }
-    to { text-shadow: 0 0 15px #00ff00; }
-}
-
-.screen-text-animation {
-    animation: screenGlow 0.3s ease;
-}
-
-/* Поиск */
-.search-card {
-    margin-bottom: 24px;
-}
-
-
-/* Дополнительные стили для платформ */
-.platform-icon {
-    font-size: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 150px;
-}
-
-.platform-stats {
-    display: flex;
-    gap: 16px;
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px solid #dee2e6;
-}
-
-.platform-stat {
+.detail-info {
     flex: 1;
-    text-align: center;
 }
 
-.platform-stat-value {
-    font-size: 24px;
-    font-weight: bold;
-    color: #007bff;
+.detail-info dl {
+    margin: 0;
 }
 
-.platform-stat-label {
-    font-size: 12px;
-    color: #6c757d;
+.detail-info dt {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    color: var(--retro-yellow);
+    margin-top: 16px;
+    margin-bottom: 6px;
 }
+
+.detail-info dt:first-child {
+    margin-top: 0;
+}
+
+.detail-info dd {
+    margin-bottom: 16px;
+    margin-left: 0;
+    padding-left: 12px;
+    border-left: 2px solid var(--retro-green-dark);
+}
+

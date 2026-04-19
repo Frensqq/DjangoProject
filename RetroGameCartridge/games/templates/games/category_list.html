@@ -41,11 +41,11 @@
                         🔫
                     {% elif 'racing' in category.name|lower %}
                         🏎️
-                    {elif 'sport' in category.name|lower %}
+                    {%  elif 'sport' in category.name|lower %}
                         ⚽
-                    {elif 'horror' in category.name|lower %}
+                    {% elif 'horror' in category.name|lower %}
                         👻
-                    {else %}
+                    {% else %}
                         🎮
                     {% endif %}
                 </span>
@@ -64,7 +64,7 @@
             <div class="game-card-footer">
                 <a href="{% url 'games:game_list' %}?category={{ category.id }}" class="btn btn-info btn-sm">Игры жанра</a>
                 {% if user.is_authenticated %}
-                    <a href="{% url 'games:category_update' category.id %}" class="btn btn-primary btn-sm">✏️ Редактировать</a>
+                    <a href="{% url 'games:category_update' category.id %}" class="btn btn-primary btn-sm">Редактировать</a>
                 {% endif %}
             </div>
         </div>
@@ -74,8 +74,8 @@
 </div>
 
 {% if user.is_authenticated %}
-    <div class="mt-3">
-        <a href="{% url 'games:category_create' %}" class="btn btn-success">➕ Добавить новый жанр</a>
+    <div class="add-entry">
+        <a href="{% url 'games:category_create' %}" class="btn btn-success">Добавить новый жанр</a>
     </div>
 {% endif %}
 
