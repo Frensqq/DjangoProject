@@ -3,6 +3,7 @@ from django.db.models import Q, Avg, Count
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
+from django.http import FileResponse, Http404
 from .models import Game, GameStudio, Category, Platform, Review
 from .forms import (GameForm, GameStudioForm, CategoryForm, 
                    PlatformForm, ReviewForm, UserRegistrationForm)
@@ -150,6 +151,14 @@ def game_delete(request, pk):
 
     return render(request, 'games/game_confirm_delete.html', {'game': game})
 
+def download_game(request, pk):
+    game = get_object_or_404(Game, pk=pk)
+    if not game.game_file:
+        raise Http404("Файл не найден")
+    
+    response = FileResponse(open(game.game_file.path, 'rb'), as_attachment=True)
+    return response
+
 
 @login_required
 def review_create(request, game_id):
@@ -214,7 +223,6 @@ def review_delete(request, pk):
         return redirect('games:game_detail', pk=game_pk)
     
     return render(request, 'games/review_confirm_delete.html', {'review': review})
-
 
 
 # Список студий

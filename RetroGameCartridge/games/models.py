@@ -194,6 +194,14 @@ class Game(models.Model):
         null=True,
         help_text="Ссылка на видео с обзором"
     )
+
+    game_file = models.FileField(
+        upload_to='game_files/',
+        verbose_name="Файл игры",
+        blank=True,
+        null=True,
+        help_text="Загрузите файл игры"
+    )
     
     is_available = models.BooleanField(
         default=True,
@@ -225,6 +233,13 @@ class Game(models.Model):
     
     def get_absolute_url(self):
         return reverse('games:game_detail', args=[str(self.id)])
+    
+    def save(self, *args, **kwargs):
+        if self.game_file:
+            self.is_available = True
+        else:
+            self.is_available = False
+        super().save(*args, **kwargs)
     
     def update_rating(self):
         """Обновляет средний рейтинг и количество отзывов"""

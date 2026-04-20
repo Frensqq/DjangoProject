@@ -30,6 +30,17 @@
                         
                         <dt>Цена:</dt>
                         <dd>{{ game.price|default:"Не указана" }} ₽</dd>
+
+                        <dt>Скачать:</dt>
+                        <dd>
+                            {% if game.game_file %}
+                            <a href="{% url 'games:download_game' game.id %}" class="btn btn-success" style="display: inline-block;">
+                                Скачать игру ({{ game.game_file.size|filesizeformat }})
+                            </a>
+                            {% else %}
+                                <span class="badge badge-secondary">Файл не загружен</span>
+                            {% endif %}
+                        </dd>
                         
                         <dt>Рейтинг:</dt>
                         <dd>

@@ -91,7 +91,7 @@ class GameForm(forms.ModelForm):
         model = Game
         fields = ['name', 'release_date', 'description', 'game_studio',
             'categories', 'platforms', 'cover_image', 'price',
-            'video_review_url', 'is_available']
+            'video_review_url', 'game_file']
         widgets = {
             'name': forms.TextInput(attrs={
                     'class': 'form-control',
@@ -130,9 +130,10 @@ class GameForm(forms.ModelForm):
                     'class': 'form-control',
                     'placeholder': 'https://rutube.com/video.'
             }),
-            'is_available': forms.CheckboxInput(attrs={
-                    'class': 'form-check-input',
-            }),
+            'game_file': forms.FileInput(attrs={
+                'class': 'form-control'
+            })
+            
         }
 
     def __init__(self, *args, **kwargs):
