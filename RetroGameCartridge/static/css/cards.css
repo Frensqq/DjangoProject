@@ -72,25 +72,9 @@
     justify-content: center;
 }
 
-/* Заглушка для изображения */
-.game-card-image-placeholder {
-    width: 100%;
-    height: 200px;
-    background: repeating-linear-gradient(
-        45deg,
-        var(--retro-dark) 0px,
-        var(--retro-dark) 20px,
-        var(--retro-purple) 20px,
-        var(--retro-purple) 40px
-    );
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 64px;
-}
-
 .game-card-body {
     padding: 16px;
+    flex-grow: 1;
 }
 
 .game-card-title {
@@ -117,6 +101,8 @@
     border-top: 1px solid var(--retro-green-dark);
     display: flex;
     gap: 12px;
+    margin-top: auto;
+    margin-bottom: 0%;
 }
 
 
