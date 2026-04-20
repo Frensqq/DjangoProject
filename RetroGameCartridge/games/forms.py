@@ -62,7 +62,7 @@ class CategoryForm(forms.ModelForm):
 class PlatformForm(forms.ModelForm):
     class Meta:
         model = Platform
-        fields = ['name','manufacturer','release_year','description']
+        fields = ['name','manufacturer','release_year','description', 'platform_image']
         widgets= {
             'name': forms.TextInput(attrs={
                     'class': 'form-control',
@@ -83,6 +83,9 @@ class PlatformForm(forms.ModelForm):
                     'class':'form-control',
                     'rows':3,
                     'placeholder':'Описание'
+            }),
+            'platform_image': forms.FileInput(attrs={
+                    'class':'form-control',
             })
         }
 

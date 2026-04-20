@@ -101,6 +101,13 @@ class Platform(models.Model):
         unique=True
     )
     
+    platform_image = models.ImageField(
+        upload_to='platform_image/',
+        verbose_name="Картинка устройства", 
+        blank=True, 
+        null=True  
+    )
+
     manufacturer = models.CharField(
         max_length=150,
         verbose_name="Производитель",

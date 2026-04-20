@@ -232,19 +232,15 @@ def studio_list(request):
     """
     studios = GameStudio.objects.prefetch_related('games').all()
 
-    # Получаем параметры фильтрации из GET запроса
     query = request.GET.get('q')
     
-    # Поиск по тексту (название, страна, глава компании)
     if query:
         studios = studios.filter(
-            Q(name__icontains=query) |  # Название содержит query (без учета регистра)
-            Q(country__icontains=query) |  # Описание содержит query
-            Q(director__icontains=query)  # Название студии содержит query
+            Q(name__icontains=query) |
+            Q(country__icontains=query) | 
+            Q(director__icontains=query)  
         )
     
-
-    # Контекст для шаблона
     context = {
         'studios': studios,
     }
@@ -295,7 +291,7 @@ def category_list(request):
     return render(request, 'games/category_list.html', context)
 
 
-# Добавление жанра (уже есть, но обновим)
+# Добавление жанра
 @login_required
 def category_create(request):
     """Обрабатывает создание нового жанра."""
@@ -370,7 +366,7 @@ def platform_create(request):
         return redirect('games:platform_list')
     
     if request.method == 'POST':
-        form = PlatformForm(request.POST)
+        form = PlatformForm(request.POST, request.FILES)
         if form.is_valid():
             platform = form.save()
             messages.success(request, f'Платформа "{platform.name}" успешно добавлена!')
@@ -390,7 +386,7 @@ def platform_update(request, pk):
     platform = get_object_or_404(Platform, pk=pk)
     
     if request.method == 'POST':
-        form = PlatformForm(request.POST, instance=platform)
+        form = PlatformForm(request.POST,request.FILES, instance=platform)
         if form.is_valid():
             platform = form.save()
             messages.success(request, f'Платформа "{platform.name}" успешно обновлена!')
