@@ -128,17 +128,15 @@
     btn.classList.remove('btn-danger');
     btn.classList.add('btn-success');
     
-    // Маленький прямоугольник в центре
     context.fillStyle = '#2d1b36';
     context.fillRect(canvas.width / 2 - 100, canvas.height / 2 - 30, 200, 60);
     
     context.fillStyle = '#ff9966';
-    
-    
     context.font = '20px "Press Start 2P", monospace';
     context.textAlign = 'center';
     context.textBaseline = 'middle';
     context.fillText('GAME OVER', canvas.width / 2, canvas.height / 2);
+
 }
 
     function resetGame() {
@@ -270,7 +268,7 @@ startStopBtn.addEventListener('click', function() {
             cancelAnimationFrame(rAF);
             rAF = null;
         }
-        startStopBtn.textContent = '▶ Начать игру';
+        startStopBtn.textContent = 'Начать игру';
         startStopBtn.classList.remove('btn-danger');
         startStopBtn.classList.add('btn-success');
     } else {
