@@ -422,3 +422,14 @@ def register(request):
         form = UserRegistrationForm()
     
     return render(request, 'registration/register.html', {'form': form})
+
+
+#Мини игры
+def play_tetris(request):
+    return render(request, 'mini_games/Tetris.html')
+
+def play_snake(request):
+    return render(request, 'mini_games/Snake.html')
+
+def play_minesweeper(request):
+    return render(request, 'mini_games/Minesweeper.html')

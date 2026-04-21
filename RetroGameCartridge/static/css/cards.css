@@ -90,27 +90,7 @@
     line-height: 1.5;
 }
 
-@media (max-width: 600px) {
-    .history-card {
-        flex-direction: column;
-    }
 
-    .image-column-card .btn {
-        width: 100%;
-    }
-    
-    .image-column-card {
-        width: 100%;
-        flex-direction: row;
-        border-right: none;
-        border-bottom: 2px solid var(--retro-green);
-    }
-    
-    .history-card-image {
-        width: 120px;
-        height: 120px;
-    }
-}
 
 .games-grid {
     display: flex;

@@ -5,14 +5,12 @@
 {% block content %}
 <!-- Блок с историческими играми -->
 <h1>История ретро-игр</h1>
-<p>Игры, которые изменили мир</p>
-
 
 <div class="history-grid">
     <div class="history-card">
         <div class="image-column-card">
             <img src="/media/hystory_card/tetris.jpg" class="history-card-image" alt="Tetris">
-            <button class="btn">Играть</button>
+            <a href="{% url 'games:play_tetris' %}" class="btn">Играть</a>
         </div>
         <div class="history-text">
             <h3>Тетрис (1984)</h3>
@@ -23,7 +21,7 @@
     <div class="history-card">
         <div class="image-column-card">
             <img src="/media/hystory_card/saper.jpg" class="history-card-image" alt="Saper">
-            <button class="btn">Играть</button>
+            <a href="{% url 'games:play_minesweeper' %}" class="btn">Играть</a>
         </div>
         <div class="history-text">
             <h3>Сапер (1989)</h3>
@@ -34,7 +32,7 @@
     <div class="history-card">
         <div class="image-column-card">
             <img src="/media/hystory_card/snake.jpg" class="history-card-image" alt="Snake">
-            <button class="btn">Играть</button>
+            <a href="{% url 'games:play_snake' %}" class="btn">Играть</a>
         </div>
         <div class="history-text">
             <h3>Змейка (1997)</h3>

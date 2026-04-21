@@ -2,6 +2,7 @@
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import TemplateView
 from . import views
 
 app_name = 'games'
@@ -41,6 +42,11 @@ urlpatterns = [
 
     #Скачивание игры
     path('games/<int:pk>/download/', views.download_game, name='download_game'),
+
+    #Миниигры
+    path('play/tetris/', views.play_tetris, name='play_tetris'),
+    path('play/snake/', views.play_snake, name='play_snake'),
+    path('play/minesweeper/', views.play_minesweeper, name='play_minesweeper'),
 ]
 
 if settings.DEBUG:
