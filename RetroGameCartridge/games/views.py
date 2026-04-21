@@ -19,7 +19,7 @@ def home(request):
     total_studios = GameStudio.objects.count()  
     total_categories = Category.objects.count()  
     total_platforms = Platform.objects.count()  
-    recent_games = Game.objects.all()[:5]  
+    recent_games = Game.objects.all().order_by('-created_at')[:6]  
     
     context = {
         'total_games': total_games,

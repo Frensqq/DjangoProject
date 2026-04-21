@@ -26,7 +26,7 @@ body {
 }
 
 /* Мобильные телефоны */
-@media (max-width: 576px) {
+@media (max-width: 600px) {
     
     .container {
         padding: 0 16px;
@@ -82,7 +82,10 @@ body {
     }
     
     .game-card {
-        width: 100%;
+        min-width: 100%;
+    }
+    .games-grid {
+        flex-direction: column;
     }
     
     .form-card-header {
@@ -141,6 +144,30 @@ body {
         font-size: 16px;
     }
 }
+
+/* для карточек с историей игр */
+@media (max-width: 600px) {
+    .history-card {
+        flex-direction: column;
+    }
+
+    .image-column-card .btn {
+        width: 100%;
+    }
+    
+    .image-column-card {
+        width: 100%;
+        flex-direction: row;
+        border-right: none;
+        border-bottom: 2px solid var(--retro-green);
+    }
+    
+    .history-card-image {
+        width: 120px;
+        height: 120px;
+    }
+}
+
 
 /* Десктопы */
 @media (min-width: 769px) and (max-width: 1024px) {

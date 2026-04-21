@@ -3,26 +3,48 @@
 {% block title %}Главная{% endblock %}
 
 {% block content %}
-<div class="stats-grid">
-    <div class="stat-card">
-        <h5>Всего игр</h5>
-        <p class="stat-number">{{ total_games }}</p>
+<!-- Блок с историческими играми -->
+<h1>История ретро-игр</h1>
+<p>Игры, которые изменили мир</p>
+
+
+<div class="history-grid">
+    <div class="history-card">
+        <div class="image-column-card">
+            <img src="/media/hystory_card/tetris.jpg" class="history-card-image" alt="Tetris">
+            <button class="btn">Играть</button>
+        </div>
+        <div class="history-text">
+            <h3>Тетрис (1984)</h3>
+            <p>Первая массовая игра из СССР. Создатель: Алексей Пажитнов. Тетрис стал самой продаваемой игрой всех времен и научил мир играть в головоломки.</p>
+        </div>
     </div>
-    <div class="stat-card">
-        <h5>Студий</h5>
-        <p class="stat-number">{{ total_studios }}</p>
+
+    <div class="history-card">
+        <div class="image-column-card">
+            <img src="/media/hystory_card/saper.jpg" class="history-card-image" alt="Saper">
+            <button class="btn">Играть</button>
+        </div>
+        <div class="history-text">
+            <h3>Сапер (1989)</h3>
+            <p>Создан Microsoft для обучения работе с мышью. Стал культовой игрой Windows и до сих пор остается одной из самых узнаваемых игр в мире.</p>
+        </div>
     </div>
-    <div class="stat-card">
-        <h5>Жанров</h5>
-        <p class="stat-number">{{ total_categories }}</p>
-    </div>
-    <div class="stat-card">
-        <h5>Платформ</h5>
-        <p class="stat-number">{{ total_platforms }}</p>
+
+    <div class="history-card">
+        <div class="image-column-card">
+            <img src="/media/hystory_card/snake.jpg" class="history-card-image" alt="Snake">
+            <button class="btn">Играть</button>
+        </div>
+        <div class="history-text">
+            <h3>Змейка (1997)</h3>
+            <p>Символ мобильных игр от Nokia. Установлена на более чем 350 миллионов телефонов. Показала, что игры могут быть везде, даже в телефоне.</p>
+        </div>
     </div>
 </div>
 
-<h2>Последние добавленные игры</h2>
+
+<h1>Последние добавленные игры</h1>
 <div class="games-grid">
     {% for game in recent_games %}
         <div class="game-card">
@@ -52,5 +74,23 @@
     {% endfor %}
 </div>
 
-
+<h1>Статистика сайта</h1>
+<div class="stats-grid">
+    <div class="stat-card">
+        <h5>Всего игр</h5>
+        <p class="stat-number">{{ total_games }}</p>
+    </div>
+    <div class="stat-card">
+        <h5>Студий</h5>
+        <p class="stat-number">{{ total_studios }}</p>
+    </div>
+    <div class="stat-card">
+        <h5>Жанров</h5>
+        <p class="stat-number">{{ total_categories }}</p>
+    </div>
+    <div class="stat-card">
+        <h5>Платформ</h5>
+        <p class="stat-number">{{ total_platforms }}</p>
+    </div>
+</div>
 {% endblock %}

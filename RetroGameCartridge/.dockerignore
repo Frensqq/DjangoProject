@@ -1,0 +1,24 @@
+# .dockerignore
+.git/
+.env
+*.pyc
+.gitignore
+README.md
+venv/
+__pycache__/
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+db.sqlite3
+.DS_Store
+.env
+.vscode/
+.idea/
+*.log
+staticfiles/
+media/
