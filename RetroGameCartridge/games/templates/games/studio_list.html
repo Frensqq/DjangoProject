@@ -35,13 +35,14 @@
                 </div>
             {% endif %}
             <div class="game-card-body">
-                <h5 class="game-card-title">{{ studio.name }}</h5>
+                <h5>{{ studio.name }}</h5>
                 <p class="game-card-text">
                     <strong>Год основания:</strong> {{ studio.year_foundation|default:"Не указан" }}<br>
                     <strong>Страна:</strong> {{ studio.country|default:"Не указана" }}<br>
-                    <strong>Глава студии:</strong> {{ studio.director|default:"Не указан" }}<br>
-                    {% if studio.website %}
-                        <strong>Сайт:</strong> <a href="{{ studio.website }}" target="_blank">{{ studio.website|truncatechars:30 }}</a>
+                    <strong>Глава студии:</strong> {{ studio.director|default:"Не указан" }}<br>                
+                        <strong>Сайт:</strong> 
+                    {% if studio.website %} 
+                        <a href="{{ studio.website }}" target="_blank">{{ studio.website|truncatechars:30 }}</a>
                     {% endif %}
                 </p>
                 <p class="game-card-text">

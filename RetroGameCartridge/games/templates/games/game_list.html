@@ -43,14 +43,12 @@
                 </div>
             {% endif %}
             <div class="game-card-body">
-                <h5 class="game-card-title">{{ game.name }}</h5>
-                <h6 class="game-card-subtitle">{{ game.game_studio.name }}</h6>
+                <h5>{{ game.name }}</h5>
+                <h6>{{ game.game_studio.name }}</h6>
                 <p class="game-card-text">
                     <strong>Год:</strong> {{ game.release_date|date:"Y"|default:"Не указан" }}<br>
-                    {% if game.price %}<strong>Цена:</strong> {{ game.price }} ₽<br>{% endif %}
-                    <strong>Статус:</strong> 
                     <span class="badge {% if game.is_available %}badge-success{% else %}badge-danger{% endif %}">
-                        {% if game.is_available %}Доступна для скачивания{% else %}Нет на сайте{% endif %}
+                        {% if game.is_available %}Доступна{% else %}Нет на сайте{% endif %}
                     </span>
                 </p>
             </div>

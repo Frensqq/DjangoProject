@@ -22,7 +22,7 @@
 
 .stat-card h5 {
     font-family: 'Press Start 2P', monospace;
-    font-size: 17px;
+    font-size: 20px;
     color: var(--retro-beige);
     margin-bottom: 10px;
     letter-spacing: 1px;
@@ -44,7 +44,6 @@
     margin: 32px 0;
 }
 
-/* Карточка игры */
 .game-card {
     width: calc(33.333% - 16px);
     background: var(--retro-purple);
@@ -61,7 +60,7 @@
 
 .game-card-image {
     width: 100%;
-    height: 200px;
+    height: 150px;
     object-fit: cover;
     border-bottom: 2px solid var(--retro-green);
     image-rendering: pixelated;
@@ -77,16 +76,26 @@
     flex-grow: 1;
 }
 
-.game-card-title {
+h5 {
     font-family: 'Press Start 2P', monospace;
-    font-size: 13px;
+    font-size: 20px;
     color: var(--retro-yellow);
     margin-bottom: 12px;
     line-height: 1.4;
 }
 
+h6 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 13px;
+    color: var(--retro-beige);
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+
 .game-card-text {
-    font-size: 14px;
+    font-size: 17px;
+    line-height: 23px;
     color: var(--retro-beige);
     margin-bottom: 12px;
 }
@@ -103,42 +112,4 @@
     gap: 12px;
     margin-top: auto;
     margin-bottom: 0%;
-}
-
-
-/* Адаптивность */
-@media (max-width: 768px) {
-    .game-card {
-        width: calc(50% - 12px);
-    }
-    
-    .stat-number {
-        font-size: 32px;
-    }
-    
-    h1 {
-        font-size: 20px;
-    }
-    
-    h2 {
-        font-size: 16px;
-    }
-}
-
-@media (max-width: 576px) {
-    .game-card {
-        width: 100%;
-    }
-    
-    .stats-grid {
-        flex-direction: column;
-    }
-    
-    .stat-card {
-        min-width: auto;
-    }
-    
-    .container {
-        padding: 0 16px;
-    }
 }
