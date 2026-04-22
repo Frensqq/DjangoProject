@@ -79,22 +79,24 @@ def game_list(request):
 
 
 def game_detail(request, pk):
-    game = get_object_or_404(
-        Game.objects.select_related('game_studio')
-        .prefetch_related('categories', 'platforms', 'comments__user', 'ratings'),
-        pk=pk
-    )
+    game = get_object_or_404(Game, pk=pk)
     
-    comments = game.comments.select_related('user').all()
+    # Комментарии: сначала старые, потом новые (как на форуме)
+    comments = game.comments.all().order_by('created_at')  # ← Убрали минус
+    
+    ratings = game.ratings.all()
+    ratings_count = ratings.count()
+    average_rating = ratings.aggregate(Avg('rating'))['rating__avg'] or 0
     
     user_rating = None
     if request.user.is_authenticated:
-        user_rating = Rating.objects.filter(game=game, user=request.user).first()
+        user_rating = game.ratings.filter(user=request.user).first()
     
     context = {
         'game': game,
-        'comments': comments,
-        'ratings_count': game.ratings.count(), 
+        'comments': comments,  # теперь старые сверху
+        'ratings_count': ratings_count,
+        'average_rating': average_rating,
         'user_rating': user_rating,
     }
     return render(request, 'games/game_detail.html', context)
