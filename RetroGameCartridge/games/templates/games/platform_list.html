@@ -27,23 +27,13 @@
 <div class="games-grid">
     {% for platform in platforms %}
         <div class="game-card">
-            <div class="game-card-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center;">
-                <span style="font-size: 64px;">
-                    {% if 'playstation' in platform.name|lower %}
-                        🎮
-                    {% elif 'xbox' in platform.name|lower %}
-                        🎯
-                    {% elif 'nintendo' in platform.name|lower %}
-                        ⭐
-                    {% elif 'pc' in platform.name|lower or 'windows' in platform.name|lower %}
-                        💻      
-                    {% elif 'sega' in platform.name|lower %}
-                        🦔
-                    {% else %}
-                        🕹️
-                    {% endif %}
-                </span>
-            </div>
+            {% if platform.platform_image %}
+                <img src="{{ platform.platform_image.url }}" class="game-card-image" alt="{{ game.name }}">
+            {% else %}
+                <div class="game-card-image">
+                    <span style="font-size: 48px; color: #000;">No Image</span>
+                </div>
+            {% endif %}
             <div class="game-card-body">
                 <h5 class="game-card-title">{{ platform.name }}</h5>
                 <p class="game-card-text">

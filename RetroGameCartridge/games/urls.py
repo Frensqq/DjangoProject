@@ -1,5 +1,8 @@
 # games/urls.py
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
+from django.views.generic import TemplateView
 from . import views
 
 app_name = 'games'
@@ -15,10 +18,13 @@ urlpatterns = [
     path('games/<int:pk>/update/', views.game_update, name='game_update'),
     path('games/<int:pk>/delete/', views.game_delete, name='game_delete'),
     
-    # Отзывы (только один раз каждый!)
-    path('games/<int:game_id>/review/create/', views.review_create, name='review_create'),
-    path('reviews/<int:pk>/update/', views.review_update, name='review_update'),
-    path('reviews/<int:pk>/delete/', views.review_delete, name='review_delete'),
+    # Оценки
+    path('games/<int:game_id>/rate/', views.rating_create_or_update, name='rating_create'),
+    
+    # Комментарии
+    path('games/<int:game_id>/comment/', views.comment_create, name='comment_create'),
+    path('comments/<int:pk>/update/', views.comment_update, name='comment_update'),
+    path('comments/<int:pk>/delete/', views.comment_delete, name='comment_delete'),
     
     # Студии
     path('studios/', views.studio_list, name='studio_list'),
@@ -36,4 +42,15 @@ urlpatterns = [
     
     # Регистрация
     path('register/', views.register, name='register'),
+
+    #Скачивание игры
+    path('games/<int:pk>/download/', views.download_game, name='download_game'),
+
+    #Миниигры
+    path('play/tetris/', views.play_tetris, name='play_tetris'),
+    path('play/snake/', views.play_snake, name='play_snake'),
+    path('play/minesweeper/', views.play_minesweeper, name='play_minesweeper'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

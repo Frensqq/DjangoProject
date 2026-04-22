@@ -27,29 +27,6 @@
 <div class="games-grid">
     {% for category in categories %}
         <div class="game-card">
-            <div class="game-card-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center;">
-                <span style="font-size: 64px;">
-                    {% if 'action' in category.name|lower %}
-                        ⚔️
-                    {% elif 'rpg' in category.name|lower %}
-                        🧙
-                    {% elif 'strategy' in category.name|lower %}
-                        ♟️
-                    {% elif 'adventure' in category.name|lower %}
-                        🗺️
-                    {% elif 'shooter' in category.name|lower %}
-                        🔫
-                    {% elif 'racing' in category.name|lower %}
-                        🏎️
-                    {%  elif 'sport' in category.name|lower %}
-                        ⚽
-                    {% elif 'horror' in category.name|lower %}
-                        👻
-                    {% else %}
-                        🎮
-                    {% endif %}
-                </span>
-            </div>
             <div class="game-card-body">
                 <h5 class="game-card-title">{{ category.name }}</h5>
                 {% if category.description %}

@@ -3,12 +3,11 @@ from django.db.models import Q, Avg, Count
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
-from .models import Game, GameStudio, Category, Platform, Review
-from .forms import (GameForm, GameStudioForm, CategoryForm, 
-                   PlatformForm, ReviewForm, UserRegistrationForm)
+from django.http import FileResponse, Http404
+from .models import Game, GameStudio, Category, Platform, Rating, Comment
+from .forms import ( GameForm, GameStudioForm, CategoryForm, PlatformForm, RatingForm, CommentForm, UserRegistrationForm)
 
 def is_moderator(user):
-    """Проверка, является ли пользователь модератором"""
     return user.is_authenticated and (user.is_superuser or user.groups.filter(name='Moderator').exists())
 
 
@@ -18,7 +17,7 @@ def home(request):
     total_studios = GameStudio.objects.count()  
     total_categories = Category.objects.count()  
     total_platforms = Platform.objects.count()  
-    recent_games = Game.objects.all()[:5]  
+    recent_games = Game.objects.all().order_by('-created_at')[:6]  
     
     context = {
         'total_games': total_games,
@@ -82,21 +81,21 @@ def game_list(request):
 def game_detail(request, pk):
     game = get_object_or_404(
         Game.objects.select_related('game_studio')
-        .prefetch_related('categories', 'platforms', 'reviews__user'),
+        .prefetch_related('categories', 'platforms', 'comments__user', 'ratings'),
         pk=pk
     )
     
-    reviews = game.reviews.select_related('user').all()
+    comments = game.comments.select_related('user').all()
     
-
-    user_review = None
+    user_rating = None
     if request.user.is_authenticated:
-        user_review = reviews.filter(user=request.user).first()
+        user_rating = Rating.objects.filter(game=game, user=request.user).first()
     
     context = {
         'game': game,
-        'reviews': reviews,
-        'user_review': user_review,
+        'comments': comments,
+        'ratings_count': game.ratings.count(), 
+        'user_rating': user_rating,
     }
     return render(request, 'games/game_detail.html', context)
 
@@ -150,93 +149,109 @@ def game_delete(request, pk):
 
     return render(request, 'games/game_confirm_delete.html', {'game': game})
 
+def download_game(request, pk):
+    game = get_object_or_404(Game, pk=pk)
+    if not game.game_file:
+        raise Http404("Файл не найден")
+    
+    response = FileResponse(open(game.game_file.path, 'rb'), as_attachment=True)
+    return response
+
 
 @login_required
-def review_create(request, game_id):
-    """Создание отзыва - могут все авторизованные"""
+def rating_create_or_update(request, game_id):
+    game = get_object_or_404(Game, pk=game_id)
+    
+    rating = Rating.objects.filter(game=game, user=request.user).first()
+    
+    if request.method == 'POST':
+        if rating:
+            form = RatingForm(request.POST, instance=rating)
+        else:
+            form = RatingForm(request.POST)
+        
+        if form.is_valid():
+            rating = form.save(commit=False)
+            rating.game = game
+            rating.user = request.user
+            rating.save()
+            messages.success(request, 'Ваша оценка сохранена!')
+            return redirect('games:game_detail', pk=game.pk)
+    else:
+        form = RatingForm(instance=rating)
+    
+    return render(request, 'games/rating_form.html', {'form': form, 'game': game, 'rating': rating})
+
+
+@login_required
+def comment_create(request, game_id):
     game = get_object_or_404(Game, pk=game_id)
     
     if request.method == 'POST':
-        form = ReviewForm(request.POST)
+        form = CommentForm(request.POST)
         if form.is_valid():
-            review = form.save(commit=False)
-            review.game = game
-            review.user = request.user
-            review.save()
-            messages.success(request, 'Ваш отзыв успешно добавлен!')
+            comment = form.save(commit=False)
+            comment.game = game
+            comment.user = request.user
+            comment.save()
+            messages.success(request, 'Комментарий добавлен!')
             return redirect('games:game_detail', pk=game.pk)
     else:
-        form = ReviewForm()
+        form = CommentForm()
     
-    return render(request, 'games/review_form.html', {'form': form, 'game': game})
+    return render(request, 'games/comment_form.html', {'form': form, 'game': game})
 
 
 @login_required
-def review_update(request, pk):
-    """Редактирование отзыва - только автор или модератор/админ"""
-    review = get_object_or_404(Review, pk=pk)
+def comment_update(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
     
-    is_author = review.user == request.user
-    is_moderator = request.user.is_superuser or request.user.groups.filter(name='Moderator').exists()
-    
-    if not (is_author or is_moderator):
-        messages.error(request, 'Вы не можете редактировать этот отзыв!')
-        return redirect('games:game_detail', pk=review.game.pk)
+    if comment.user != request.user and not is_moderator(request.user):
+        messages.error(request, 'Вы не можете редактировать этот комментарий!')
+        return redirect('games:game_detail', pk=comment.game.pk)
     
     if request.method == 'POST':
-        form = ReviewForm(request.POST, instance=review)
+        form = CommentForm(request.POST, instance=comment)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Ваш отзыв обновлен!')
-            return redirect('games:game_detail', pk=review.game.pk)
+            messages.success(request, 'Комментарий обновлен!')
+            return redirect('games:game_detail', pk=comment.game.pk)
     else:
-        form = ReviewForm(instance=review)
+        form = CommentForm(instance=comment)
     
-    return render(request, 'games/review_form.html', {'form': form, 'game': review.game})
+    return render(request, 'games/comment_form.html', {'form': form, 'game': comment.game})
 
 
 @login_required
-def review_delete(request, pk):
-    """Удаление отзыва - только автор или модератор/админ"""
-    review = get_object_or_404(Review, pk=pk)
+def comment_delete(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
     
-    is_author = review.user == request.user
-    is_moderator = request.user.is_superuser or request.user.groups.filter(name='Moderator').exists()
-    
-    if not (is_author or is_moderator):
-        messages.error(request, 'Вы не можете удалить этот отзыв!')
-        return redirect('games:game_detail', pk=review.game.pk)
+    if comment.user != request.user and not is_moderator(request.user):
+        messages.error(request, 'Вы не можете удалить этот комментарий!')
+        return redirect('games:game_detail', pk=comment.game.pk)
     
     if request.method == 'POST':
-        game_pk = review.game.pk
-        review.delete()
-        messages.success(request, 'Ваш отзыв удален!')
+        game_pk = comment.game.pk
+        comment.delete()
+        messages.success(request, 'Комментарий удален!')
         return redirect('games:game_detail', pk=game_pk)
     
-    return render(request, 'games/review_confirm_delete.html', {'review': review})
-
+    return render(request, 'games/comment_confirm_delete.html', {'comment': comment})
 
 
 # Список студий
 def studio_list(request):
-    """
-    Отображает список всех студий-разработчиков.
-    """
     studios = GameStudio.objects.prefetch_related('games').all()
 
-    # Получаем параметры фильтрации из GET запроса
     query = request.GET.get('q')
     
-    # Поиск по тексту (название, страна, глава компании)
     if query:
         studios = studios.filter(
-            Q(name__icontains=query) |  # Название содержит query (без учета регистра)
-            Q(country__icontains=query) |  # Описание содержит query
-            Q(director__icontains=query)  # Название студии содержит query
+            Q(name__icontains=query) |
+            Q(country__icontains=query) | 
+            Q(director__icontains=query)  
         )
     
-
-    # Контекст для шаблона
     context = {
         'studios': studios,
     }
@@ -247,7 +262,6 @@ def studio_list(request):
 # Добавление студии
 @login_required
 def studio_create(request):
-    """Обрабатывает создание новой студии."""
     if not is_moderator(request.user):
         messages.error(request, 'У вас нет прав на добавление студий!')
         return redirect('games:studio_list')
@@ -266,9 +280,6 @@ def studio_create(request):
 
 # Список жанров с поиском
 def category_list(request):
-    """
-    Отображает список всех жанров с возможностью поиска.
-    """
     categories = Category.objects.prefetch_related('games').all()
     
     # Получаем параметры поиска
@@ -287,10 +298,9 @@ def category_list(request):
     return render(request, 'games/category_list.html', context)
 
 
-# Добавление жанра (уже есть, но обновим)
+# Добавление жанра
 @login_required
 def category_create(request):
-    """Обрабатывает создание нового жанра."""
     if not is_moderator(request.user):
         messages.error(request, 'У вас нет прав на добавление жанров!')
         return redirect('games:category_list')
@@ -313,7 +323,6 @@ def category_create(request):
 # Редактирование жанра
 @login_required
 def category_update(request, pk):
-    """Обрабатывает редактирование существующего жанра."""
     if not is_moderator(request.user):
         messages.error(request, 'У вас нет прав на редактирование жанров!')
         return redirect('games:category_list')
@@ -335,9 +344,6 @@ def category_update(request, pk):
     })
 # Список платформ
 def platform_list(request):
-    """
-    Отображает список всех платформ.
-    """
     platforms = Platform.objects.prefetch_related('games').all()
 
     query = request.GET.get('q')
@@ -356,13 +362,12 @@ def platform_list(request):
 # Добавление платформы
 @login_required
 def platform_create(request):
-    """Обрабатывает создание новой платформы."""
     if not is_moderator(request.user):
         messages.error(request, 'У вас нет прав на добавление платформ!')
         return redirect('games:platform_list')
     
     if request.method == 'POST':
-        form = PlatformForm(request.POST)
+        form = PlatformForm(request.POST, request.FILES)
         if form.is_valid():
             platform = form.save()
             messages.success(request, f'Платформа "{platform.name}" успешно добавлена!')
@@ -374,7 +379,6 @@ def platform_create(request):
 
 @login_required
 def platform_update(request, pk):
-    """Обрабатывает редактирование существующей платформы."""
     if not is_moderator(request.user):
         messages.error(request, 'У вас нет прав на редактирование платформ!')
         return redirect('games:platform_list')
@@ -382,7 +386,7 @@ def platform_update(request, pk):
     platform = get_object_or_404(Platform, pk=pk)
     
     if request.method == 'POST':
-        form = PlatformForm(request.POST, instance=platform)
+        form = PlatformForm(request.POST,request.FILES, instance=platform)
         if form.is_valid():
             platform = form.save()
             messages.success(request, f'Платформа "{platform.name}" успешно обновлена!')
@@ -398,11 +402,6 @@ def platform_update(request, pk):
 
 # Регистрация пользователя
 def register(request):
-    """
-    Обрабатывает регистрацию нового пользователя.
-    GET: отображает пустую форму
-    POST: создает пользователя и выполняет автоматический вход
-    """
     if request.method == 'POST':
         # Создаем форму с данными POST
         form = UserRegistrationForm(request.POST)
@@ -418,3 +417,14 @@ def register(request):
         form = UserRegistrationForm()
     
     return render(request, 'registration/register.html', {'form': form})
+
+
+#Мини игры
+def play_tetris(request):
+    return render(request, 'mini_games/Tetris.html')
+
+def play_snake(request):
+    return render(request, 'mini_games/Snake.html')
+
+def play_minesweeper(request):
+    return render(request, 'mini_games/Minesweeper.html')

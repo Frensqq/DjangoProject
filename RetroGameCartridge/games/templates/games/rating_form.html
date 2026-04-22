@@ -1,0 +1,26 @@
+{% extends 'games/base.html' %}
+
+{% block title %}Оценить игру{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-card">
+        <div class="form-card-header">
+            <h3>Оценить игру "{{ game.name }}"</h3>
+        </div>
+        <div class="form-card-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>Ваша оценка (от 1 до 10):</label>
+                    {{ form.rating }}
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-success">Сохранить оценку</button>
+                    <a href="{% url 'games:game_detail' game.pk %}" class="btn btn-secondary">Отмена</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

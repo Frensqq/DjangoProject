@@ -3,6 +3,76 @@
 {% block title %}Главная{% endblock %}
 
 {% block content %}
+<!-- Блок с историческими играми -->
+<h1>История ретро-игр</h1>
+
+<div class="history-grid">
+    <div class="history-card">
+        <div class="image-column-card">
+            <img src="/media/hystory_card/tetris.jpg" class="history-card-image" alt="Tetris">
+            <a href="{% url 'games:play_tetris' %}" class="btn">Играть</a>
+        </div>
+        <div class="history-text">
+            <h3>Тетрис (1984)</h3>
+            <p>Первая массовая игра из СССР. Создатель: Алексей Пажитнов. Тетрис стал самой продаваемой игрой всех времен и научил мир играть в головоломки.</p>
+        </div>
+    </div>
+
+    <div class="history-card">
+        <div class="image-column-card">
+            <img src="/media/hystory_card/saper.jpg" class="history-card-image" alt="Saper">
+            <a href="{% url 'games:play_minesweeper' %}" class="btn">Играть</a>
+        </div>
+        <div class="history-text">
+            <h3>Сапер (1989)</h3>
+            <p>Создан Microsoft для обучения работе с мышью. Стал культовой игрой Windows и до сих пор остается одной из самых узнаваемых игр в мире.</p>
+        </div>
+    </div>
+
+    <div class="history-card">
+        <div class="image-column-card">
+            <img src="/media/hystory_card/snake.jpg" class="history-card-image" alt="Snake">
+            <a href="{% url 'games:play_snake' %}" class="btn">Играть</a>
+        </div>
+        <div class="history-text">
+            <h3>Змейка (1997)</h3>
+            <p>Символ мобильных игр от Nokia. Установлена на более чем 350 миллионов телефонов. Показала, что игры могут быть везде, даже в телефоне.</p>
+        </div>
+    </div>
+</div>
+
+
+<h1>Последние добавленные игры</h1>
+<div class="games-grid">
+    {% for game in recent_games %}
+        <div class="game-card">
+             {% if game.cover_image %}
+                <img src="{{ game.cover_image.url }}" class="game-card-image" alt="{{ game.name }}">
+            {% else %}
+                <div class="game-card-image">
+                    <span style="font-size: 48px; color: #000;">No Image</span>
+                </div>
+            {% endif %}
+             <div class="game-card-body">
+                <h5>{{ game.name }}</h5>
+                <h6>{{ game.game_studio.name }}</h6>
+                <p class="game-card-text">
+                    <strong>Год:</strong> {{ game.release_date|date:"Y"|default:"Не указан" }}<br>
+                    <span class="badge {% if game.is_available %}badge-success{% else %}badge-danger{% endif %}">
+                        {% if game.is_available %}Доступна{% else %}Нет на сайте{% endif %}
+                    </span>
+                </p>
+            </div>
+            <div class="game-card-footer">
+                <a href="{% url 'games:game_detail' game.id %}" class="btn btn-primary btn-sm">Подробнее</a>
+            </div>
+        </div>
+    {% empty %}
+        <div class="alert alert-info">Пока нет игр</div>
+    {% endfor %}
+</div>
+
+<h1>Статистика сайта</h1>
 <div class="stats-grid">
     <div class="stat-card">
         <h5>Всего игр</h5>
@@ -21,34 +91,4 @@
         <p class="stat-number">{{ total_platforms }}</p>
     </div>
 </div>
-
-<h2>Последние добавленные игры</h2>
-<div class="games-grid">
-    {% for game in recent_games %}
-        <div class="game-card">
-            {% if game.cover_image %}
-                <img src="{{ game.cover_image.url }}" class="game-card-image" alt="{{ game.name }}">
-            {% endif %}
-             <div class="game-card-body">
-                <h5 class="game-card-title">{{ game.name }}</h5>
-                <h6 class="game-card-subtitle">{{ game.game_studio.name }}</h6>
-                <p class="game-card-text">
-                    <strong>Год:</strong> {{ game.release_date|date:"Y"|default:"Не указан" }}<br>
-                    {% if game.price %}<strong>Цена:</strong> {{ game.price }} ₽<br>{% endif %}
-                    <strong>Статус:</strong> 
-                    <span class="badge {% if game.is_available %}badge-success{% else %}badge-danger{% endif %}">
-                        {% if game.is_available %}Доступна для скачивания{% else %}Нет на сайте{% endif %}
-                    </span>
-                </p>
-            </div>
-            <div class="game-card-footer">
-                <a href="{% url 'games:game_detail' game.id %}" class="btn btn-primary btn-sm">Подробнее</a>
-            </div>
-        </div>
-    {% empty %}
-        <div class="alert alert-info">Пока нет игр</div>
-    {% endfor %}
-</div>
-
-
 {% endblock %}

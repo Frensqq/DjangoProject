@@ -1,0 +1,29 @@
+{% extends 'games/base.html' %}
+
+{% block title %}Удаление комментария{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-card">
+        <div class="form-card-header">
+            <h3>🗑 Удаление комментария</h3>
+        </div>
+        <div class="form-card-body">
+            <p>Вы уверены, что хотите удалить этот комментарий?</p>
+            <div style="border: 1px solid var(--retro-green-dark); padding: 16px; margin: 16px 0; border-radius: 4px;">
+                <strong>{{ comment.user.username }}</strong>
+                <small style="color: #888;">{{ comment.created_at|date:"d.m.Y H:i" }}</small>
+                <div style="margin-top: 8px;">{{ comment.text|linebreaks }}</div>
+            </div>
+            
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-danger">Да, удалить</button>
+                    <a href="{% url 'games:game_detail' comment.game.pk %}" class="btn btn-secondary">Отмена</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

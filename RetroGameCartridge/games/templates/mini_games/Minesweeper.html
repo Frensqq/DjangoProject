@@ -1,0 +1,22 @@
+{% extends 'games/base.html' %}
+
+{% load static %}
+{% block title %}Сапер{% endblock %}
+
+
+{% block content %}
+<div class="form-container">
+    <div class="form-card">
+        <div class="form-card-header">
+            <h3>Сапер</h3>
+        </div>
+        <div class="form-card-body" style="text-align: center;">
+            <canvas id="minesweeper" width="400" height="400"></canvas>
+            <div style="margin-top: 20px;">
+                <button id="startStopBtn" class="btn btn-success">Новая игра</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/Minesweeper.js' %}"></script>
+{% endblock %}

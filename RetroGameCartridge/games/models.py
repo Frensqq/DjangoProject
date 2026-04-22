@@ -101,6 +101,13 @@ class Platform(models.Model):
         unique=True
     )
     
+    platform_image = models.ImageField(
+        upload_to='platform_image/',
+        verbose_name="Картинка устройства", 
+        blank=True, 
+        null=True  
+    )
+
     manufacturer = models.CharField(
         max_length=150,
         verbose_name="Производитель",
@@ -179,20 +186,20 @@ class Game(models.Model):
         null=True  
     )
     
-    price = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        verbose_name="Цена",
-        null=True,
-        blank=True,
-    )
-    
     video_review_url = models.URLField(
         verbose_name="Ссылка на видео-обзор",
         max_length=500,
         blank=True,
         null=True,
         help_text="Ссылка на видео с обзором"
+    )
+
+    game_file = models.FileField(
+        upload_to='game_files/',
+        verbose_name="Файл игры",
+        blank=True,
+        null=True,
+        help_text="Загрузите файл игры"
     )
     
     is_available = models.BooleanField(
@@ -226,18 +233,24 @@ class Game(models.Model):
     def get_absolute_url(self):
         return reverse('games:game_detail', args=[str(self.id)])
     
+    def save(self, *args, **kwargs):
+        if self.game_file:
+            self.is_available = True
+        else:
+            self.is_available = False
+        super().save(*args, **kwargs)
+    
     def update_rating(self):
-        """Обновляет средний рейтинг и количество отзывов"""
-        reviews = self.reviews.filter(rating__isnull=False)
-        self.reviews_count = reviews.count()
+        """Обновляет средний рейтинг на основе всех оценок"""
+        ratings = self.ratings.filter(rating__isnull=False)
+        self.reviews_count = ratings.count()
         
         if self.reviews_count > 0:
-            total = sum(review.rating for review in reviews)
+            total = sum(r.rating for r in ratings)
             self.average_rating = total / self.reviews_count
         else:
             self.average_rating = 0
         
-        # Сохраняем с указанием полей
         self.save(update_fields=['average_rating', 'reviews_count'])
     
     class Meta:
@@ -246,69 +259,51 @@ class Game(models.Model):
         ordering = ['-release_date', 'name']
 
 
-class Review(models.Model):
-    
-    #Модель для отзывов.
-    
-    game = models.ForeignKey(
-        Game,
-        on_delete=models.CASCADE,
-        related_name='reviews',
-        verbose_name="Игра"
-    )
-    
-    user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='game_reviews',
-        verbose_name="Пользователь"
-    )
-    
+class Rating(models.Model):
+    game = models.ForeignKey(Game, on_delete=models.CASCADE, related_name='ratings', verbose_name="Игра")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='game_ratings', verbose_name="Пользователь")
     rating = models.IntegerField(
         verbose_name="Оценка",
-        validators=[
-            MinValueValidator(1),
-            MaxValueValidator(10)
-        ],
-        null=True,
-        blank=True,
-        help_text="Оценка от 1 до 10 (можно оставить отзыв без оценки)"
+        validators=[MinValueValidator(1), MaxValueValidator(10)]
     )
-    
-    comment = models.TextField(
-        verbose_name="Комментарий",
-        max_length=5000
-    )
-    
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name="Дата создания"
-    )
-    
-    updated_at = models.DateTimeField(
-        auto_now=True,
-        verbose_name="Дата обновления"
-    )
-    
-    def __str__(self):
-        rating_str = f" ({self.rating}/10)" if self.rating else ""
-        return f"Отзыв от {self.user.username} к {self.game.name}{rating_str}"
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        try:
-            self.game.update_rating()
-        except Exception as e:
-            print(f"Error updating rating: {e}")
+        self.game.update_rating()  # Добавьте эту строку
     
     def delete(self, *args, **kwargs):
-        #При удалении отзыва обновляем рейтинг игры
         game = self.game
         super().delete(*args, **kwargs)
-        game.update_rating()
+        game.update_rating()  # Добавьте эту строку
     
     class Meta:
-        verbose_name = "Отзыв"
-        verbose_name_plural = "Отзывы"
-        ordering = ['-created_at']
         unique_together = ['user', 'game']
+
+class Comment(models.Model):
+    game = models.ForeignKey(Game, 
+        on_delete=models.CASCADE, 
+        related_name='comments', 
+        verbose_name="Игра")
+    user = models.ForeignKey(User,
+        on_delete=models.CASCADE, 
+        related_name='game_comments', 
+        verbose_name="Пользователь")
+    text = models.TextField(
+        verbose_name="Комментарий", 
+        max_length=5000)
+    created_at = models.DateTimeField(
+        auto_now_add=True, 
+        verbose_name="Дата создания")
+    updated_at = models.DateTimeField(
+        auto_now=True, 
+        verbose_name="Дата обновления")
+    
+    def __str__(self):
+        return f"Комментарий от {self.user.username} к {self.game.name}"
+    
+    class Meta:
+        verbose_name = "Комментарий"
+        verbose_name_plural = "Комментарии"
+        ordering = ['-created_at']
