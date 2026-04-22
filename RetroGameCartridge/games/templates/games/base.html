@@ -31,7 +31,7 @@
                     <span class="navbar-btn">Привет, {{ user.username }}!</span>
                     <form method="post" action="{% url 'logout' %}" style="display: inline;">
                         {% csrf_token %}
-                        <button type="submit" class="btn exit-btn">Выйти</button>
+                        <button type="submit" class="btn btn-danger">Выйти</button>
                     </form>
                 {% else %}
                     <a class="navbar-btn" href="{% url 'games:register' %}">Регистрация</a>

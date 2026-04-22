@@ -15,10 +15,11 @@
 .form-control {
     width: 100%;
     padding: 8px 12px;
-    border: 1px solid #ced4da;
-    border-radius: 6px;
+    background: #0a0f0a;
+    border: 2px solid var(--retro-green-dark);
+    color: var(--retro-beige);
+    font-family: 'VT323', monospace;
     font-size: 16px;
-    transition: border-color 0.15s, box-shadow 0.15s;
 }
 
 .form-control:focus {

@@ -1,15 +1,25 @@
 /* Кнопки (и все что нажимается) */
 
+
 .btn {
     display: inline-block;
+    padding: 10px 20px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
     font-weight: 500;
     text-align: center;
     text-decoration: none;
     cursor: pointer;
     border: none;
     border-radius: 4px;
-    transition: all 0.2s ease;
-    line-height: 1.5;
+    transition: all 0.1s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 9px;
 }
 
 /* Размеры кнопок */
@@ -25,24 +35,26 @@
 }
 
 /* Цвета кнопок */
+
 .btn-primary {
-    background-color: #007bff;
-    color: white;
+    background: #007bff;
+    color: var(--retro-dark);
 }
+
 
 .btn-primary:hover {
     background-color: #0069d9;
     transform: translateY(-1px);
 }
 
+
 .btn-success {
-    background-color: #28a745;
-    color: white;
+    background: var(--retro-green);
+    color: var(--retro-dark);
 }
 
 .btn-success:hover {
-    background-color: #218838;
-    transform: translateY(-1px);
+    transform: translateY(-2px);
 }
 
 .btn-secondary {
@@ -85,7 +97,6 @@
     color: #0056b3;
 }
 
-/* Активное состояние кнопок */
 .btn:active {
-    transform: translateY(0);
+    transform: translateY(-4px);
 }

@@ -215,7 +215,7 @@ h3 {
     margin-bottom: 16px;
 }
 
-/* ===== БЭЙДЖИ ===== */
+
 .badge {
     display: inline-block;
     padding: 4px 12px;
@@ -227,19 +227,16 @@ h3 {
 }
 
 .badge-success {
-    background: var(--retro-green-dark);
-    color: var(--retro-dark);
+   
+    color: var(--retro-green);
     border: 1px solid var(--retro-green);
 }
 
 .badge-danger {
-    background: #8b3a4a;
     color: var(--retro-pink);
-    border: 1px solid var(--retro-pink);
 }
 
 .badge-info {
-    background: #2c5f6e;
     color: var(--retro-blue);
     border: 1px solid var(--retro-blue);
 }
@@ -248,67 +245,4 @@ h3 {
     background: var(--retro-purple);
     color: var(--retro-beige);
     border: 1px solid var(--retro-beige);
-}
-
-/* кнопки */
-.btn {
-    display: inline-block;
-    padding: 10px 20px;
-    font-family: 'Press Start 2P', monospace;
-    font-size: 11px;
-    text-decoration: none;
-    cursor: pointer;
-    border: none;
-    transition: all 0.1s;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.btn-primary {
-    background: var(--retro-blue);
-    color: var(--retro-dark);
-    box-shadow: 0 4px 0 #2c4f6e;
-}
-
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 0 #2c4f6e;
-}
-
-.btn-success {
-    background: var(--retro-green);
-    color: var(--retro-dark);
-    box-shadow: 0 4px 0 #2a5a2a;
-}
-
-.btn-success:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 0 #2a5a2a;
-}
-
-.btn-secondary {
-    background: #6c6f6e;
-    color: white;
-    box-shadow: 0 4px 0 #4a4c4b;
-}
-
-.btn-secondary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 0 #4a4c4b;
-}
-
-.btn-danger {
-    background: var(--retro-pink);
-    color: var(--retro-dark);
-    box-shadow: 0 4px 0 #8b3a5a;
-}
-
-.btn-sm {
-    padding: 6px 12px;
-    font-size: 9px;
-}
-
-.btn:active {
-    transform: translateY(2px);
-    box-shadow: 0 2px 0;
 }

@@ -25,26 +25,12 @@
     padding: 24px;
 }
 
-.form-group {
-    margin-bottom: 24px;
-}
-
 .form-group label {
     display: block;
     margin-bottom: 8px;
     font-family: 'Press Start 2P', monospace;
     font-size: 11px;
     color: var(--retro-green);
-}
-
-.form-control {
-    width: 100%;
-    padding: 12px;
-    background: #0a0f0a;
-    border: 2px solid var(--retro-green-dark);
-    color: var(--retro-beige);
-    font-family: 'VT323', monospace;
-    font-size: 16px;
 }
 
 .form-control:focus {
@@ -135,3 +121,12 @@ select[multiple].form-control {
     border-left: 2px solid var(--retro-green-dark);
 }
 
+.add-entry{
+    margin-top: 16px; 
+    margin-bottom: 16px;
+}
+
+canvas {
+        border: 2px solid var(--retro-green); 
+        background: var(--retro-dark);
+      }
