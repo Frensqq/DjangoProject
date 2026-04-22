@@ -18,10 +18,13 @@ urlpatterns = [
     path('games/<int:pk>/update/', views.game_update, name='game_update'),
     path('games/<int:pk>/delete/', views.game_delete, name='game_delete'),
     
-    # Отзывы (только один раз каждый!)
-    path('games/<int:game_id>/review/create/', views.review_create, name='review_create'),
-    path('reviews/<int:pk>/update/', views.review_update, name='review_update'),
-    path('reviews/<int:pk>/delete/', views.review_delete, name='review_delete'),
+    # Оценки
+    path('games/<int:game_id>/rate/', views.rating_create_or_update, name='rating_create'),
+    
+    # Комментарии
+    path('games/<int:game_id>/comment/', views.comment_create, name='comment_create'),
+    path('comments/<int:pk>/update/', views.comment_update, name='comment_update'),
+    path('comments/<int:pk>/delete/', views.comment_delete, name='comment_delete'),
     
     # Студии
     path('studios/', views.studio_list, name='studio_list'),

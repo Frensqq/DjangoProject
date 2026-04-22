@@ -27,9 +27,6 @@
                         
                         <dt>Дата выхода:</dt>
                         <dd>{{ game.release_date|date:"d.m.Y"|default:"Не указана" }}</dd>
-                        
-                        <dt>Цена:</dt>
-                        <dd>{{ game.price|default:"Не указана" }} ₽</dd>
 
                         <dt>Скачать:</dt>
                         <dd>
@@ -84,58 +81,57 @@
                 </div>
             </div>
             
-            <!-- Блок с отзывами -->
-            <div style="margin-top: 40px;">
-                <h3>Отзывы</h3>
-                
-                {% if user.is_authenticated and not user_review %}
-                    <div style="margin-bottom: 20px;">
-                        <a href="{% url 'games:review_create' game.id %}" class="btn btn-primary">Оставить отзыв</a>
+            <!-- Блок с оценкой -->
+            <div style="margin-top: 20px;">
+                <h3>Рейтинг игры</h3>
+                <div style="margin-bottom: 20px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 5px;">
+                    <div style="font-size: 24px; color: var(--retro-yellow);">
+                        {% if ratings_count > 0 %}
+                            {{ game.average_rating|floatformat:1 }}/10
+                        {% else %}
+                            Нет оценок
+                        {% endif %}
                     </div>
-                {% endif %}
+                    <small>Всего оценок: {{ ratings_count }}</small>
+                    
+                    {% if user.is_authenticated %}
+                        <div style="margin-top: 10px;">
+                            <a href="{% url 'games:rating_create' game.id %}" class="btn btn-warning btn-sm">
+                                {% if user_rating %}Изменить оценку{% else %}Поставить оценку{% endif %}
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Блок с комментариями -->
+            <div style="margin-top: 40px;">
+                <h3>Комментарии</h3>
                 
-                {% if reviews %}
-                    {% for review in reviews %}
+                <div style="margin-bottom: 20px;">
+                    <a href="{% url 'games:comment_create' game.id %}" class="btn btn-primary">Написать комментарий</a>
+                </div>
+                
+                {% if comments %}
+                    {% for comment in comments %}
                         <div style="border: 1px solid var(--retro-green-dark); padding: 16px; margin-bottom: 16px; border-radius: 4px;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                                <strong>{{ review.user.username }}</strong>
-                                <span>
-                                    {% if review.rating %}
-                                        ⭐ {{ review.rating }}/10
-                                    {% endif %}
-                                </span>
+                                <strong>{{ comment.user.username }}</strong>
+                                <small style="color: #888;">{{ comment.created_at|date:"d.m.Y H:i" }}</small>
                             </div>
                             <div style="font-size: 14px; margin-bottom: 8px;">
-                                {{ review.comment|linebreaks }}
+                                {{ comment.text|linebreaks }}
                             </div>
-                            <div style="display: flex; justify-content: space-between; align-items: center;">
-                                <small style="color: #888;">{{ review.created_at|date:"d.m.Y H:i" }}</small>
-                                {% if user.is_authenticated %}
-                                    {% if review.user == user or user.is_superuser or user.groups.all.0.name == 'Moderator' %}
-                                        <div>
-                                            <a href="{% url 'games:review_update' review.id %}" class="btn btn-primary btn-sm">Редактировать</a>
-                                            <a href="{% url 'games:review_delete' review.id %}" class="btn btn-danger btn-sm">Удалить</a>
-                                        </div>
-                                    {% endif %}
-                                {% endif %}
-                            </div>
+                            {% if user.is_authenticated and comment.user == user or user.is_superuser or user.groups.all.0.name == 'Moderator' %}
+                                <div style="text-align: right;">
+                                    <a href="{% url 'games:comment_update' comment.id %}" class="btn btn-primary btn-sm">Редактировать</a>
+                                    <a href="{% url 'games:comment_delete' comment.id %}" class="btn btn-danger btn-sm">Удалить</a>
+                                </div>
+                            {% endif %}
                         </div>
                     {% endfor %}
                 {% else %}
-                    <p>Пока нет отзывов. Будьте первым!</p>
+                    <p>Пока нет комментариев. Будьте первым!</p>
                 {% endif %}
             </div>
-            
-            <div class="form-actions" style="margin-top: 30px;">
-                <a href="{% url 'games:game_list' %}" class="btn btn-secondary">Назад к списку</a>
-                {% if user.is_authenticated %}
-                    <a href="{% url 'games:game_update' game.id %}" class="btn btn-primary">Редактировать игру</a>
-                    {% if user.is_superuser or user.groups.all.0.name == 'Moderator' %}
-                        <a href="{% url 'games:game_delete' game.id %}" class="btn btn-danger">Удалить игру</a>
-                    {% endif %}
-                {% endif %}
-            </div>
-        </div>
-    </div>
-</div>
 {% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'games/base.html' %}
+
+{% block title %}Комментарий к игре{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-card">
+        <div class="form-card-header">
+            <h3>{% if form.instance.pk %}Редактировать{% else %}Добавить{% endif %} комментарий</h3>
+            <p>Игра: <strong>{{ game.name }}</strong></p>
+        </div>
+        <div class="form-card-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ form.text }}
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-success">
+                        {% if form.instance.pk %}Сохранить{% else %}Отправить{% endif %}
+                    </button>
+                    <a href="{% url 'games:game_detail' game.pk %}" class="btn btn-secondary">Отмена</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
